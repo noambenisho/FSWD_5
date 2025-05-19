@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Leanne Graham",
+      "username": "Bret",
+      "website": "hildegard.org",
+      "email": "Sincere@april.biz"
+    }
+  ],
+  "todos": [
+    { "id": 1, "userId": 1, "title": "Learn React", "completed": false }
+  ]
+}
