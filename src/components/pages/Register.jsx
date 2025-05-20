@@ -1,37 +1,53 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../App";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [verifyPassword, setVerifyPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+
+  const getNextId = (users) => {
+    const numericIds = parseInt(users[users.length - 1].id);
+    const maxId = numericIds > 100000000 ? numericIds : 213200496;
+    return (maxId + 1).toString();
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
     try {
-      const res = await fetch(`http://localhost:3001/users?username=${username}`);
+      const res = await fetch(`${BASE_URL}/users`);
       const users = await res.json();
 
-      if (users.length > 0) {
+      // check if username already exists
+      if (users.some((u) => u.username === username)) {
         setErrorMsg("Username already exists");
         return;
       }
 
+      if (password !== verifyPassword) {
+        setErrorMsg("Passwords do not match");
+        return;
+      }
+
       // create new user
+      const newId = getNextId(users);
       const newUser = {
+        id: newId,
         username,
-        website: password // we use 'website' as the password field
+        website: password, // we use 'website' as the password field
       };
 
-      const createRes = await fetch("http://localhost:3001/users", {
+      const createRes = await fetch(`${BASE_URL}/users`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newUser)
+        body: JSON.stringify(newUser),
       });
 
       if (!createRes.ok) {
@@ -39,7 +55,9 @@ export default function Register() {
         return;
       }
 
-      navigate("/login");
+      const createdUser = await createRes.json();
+      localStorage.setItem("user", JSON.stringify(createdUser));
+      navigate("/complete-profile", { state: { userId: createdUser.id } });
     } catch (err) {
       console.error(err);
       setErrorMsg("Registration error");
@@ -64,6 +82,15 @@ export default function Register() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Verify password:</label>
+          <input
+            type="password"
+            value={verifyPassword}
+            onChange={(e) => setVerifyPassword(e.target.value)}
             required
           />
         </div>
