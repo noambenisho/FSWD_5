@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import TodoForm from "../other/TodoForm";
 
 export default function Todos() {
   const [user, setUser] = useState(null);
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("id");
+  const [showForm, setShowForm] = useState(false);
+  const [editingTodo, setEditingTodo] = useState(null);
 
   const handleToggleComplete = async (todo) => {
     const updatedTodo = { ...todo, completed: !todo.completed };
@@ -40,20 +43,6 @@ export default function Todos() {
     }
   };
 
-//   const updateTodo = async (id, title) => {
-//     try {
-//       const res = await fetch(`http://localhost:3001/todos/${id}`, {
-//         method: "PATCH",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ title }),
-//       });
-
-//       if (!res.ok) throw new Error("Failed to update todo");
-//     } catch (err) {
-//       console.error("Error updating todo:", err);
-//     }
-//   };
-
   const sortedTodos = [...todos].sort((a, b) => {
     if (sortBy === "id") {
       return Number(a.id) - Number(b.id);
@@ -65,6 +54,50 @@ export default function Todos() {
       return 0;
     }
   });
+
+  const getNextNumericId = () => {
+    const numericIds = todos
+      .map((t) => parseInt(t.id))
+      .filter((n) => !isNaN(n));
+    const maxId = numericIds.length > 0 ? Math.max(...numericIds) : 0;
+    return maxId + 1;
+  };
+
+  // save the changes or create a new todo
+  const handleSave = async (todo) => {
+    try {
+      if (todo.id) {
+        const res = await fetch(`http://localhost:3001/todos/${todo.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: todo.title,
+            completed: todo.completed,
+          }),
+        });
+
+        if (!res.ok) throw new Error("Failed to update");
+
+        setTodos((prev) => prev.map((t) => (t.id === todo.id ? todo : t)));
+      } else {
+        const newTodo = { ...todo, id: getNextNumericId(), completed: false, userId: user.id };
+        const res = await fetch(`http://localhost:3001/todos`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newTodo),
+        });
+
+        if (!res.ok) throw new Error("Failed to create");
+
+        const saved = await res.json();
+        setTodos((prev) => [...prev, saved]);
+      }
+
+      setShowForm(false);
+    } catch (err) {
+      console.error("Error saving todo:", err);
+    }
+  };
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -97,6 +130,24 @@ export default function Todos() {
         <option value="title">Title</option>
         <option value="completed">Completed</option>
       </select>
+      <br />
+      <button
+        onClick={() => {
+          setEditingTodo(null);
+          setShowForm(true);
+        }}
+      >
+        Add
+      </button>
+
+      {showForm && (
+        <TodoForm
+          onSave={handleSave}
+          onCancel={() => setShowForm(false)}
+          initialData={editingTodo}
+        />
+      )}
+
       <ul>
         {sortedTodos.map((todo) => (
           <li key={todo.id} style={{ marginBottom: "0.5em" }}>
@@ -107,20 +158,16 @@ export default function Todos() {
               style={{ marginRight: "0.5em" }}
             />
             ({todo.id}) <strong>{todo.title}</strong>
-            {/* <input
-              type="text"
-              value={todo.title}
-              onChange={(e) =>
-                setTodos((prev) =>
-                  prev.map((t) =>
-                    t.id === todo.id ? { ...t, title: e.target.value } : t
-                  )
-                )
-              }
-              style={{ marginRight: "0.5em" }}
-            /> */}
             <button onClick={() => deleteTodos(todo)}>-</button>
-            {/* <button onClick={() => updateTodo(todo, )}></button> */}
+            <button
+              onClick={() => {
+                setEditingTodo(todo);
+                setShowForm(true);
+              }}
+              style={{ marginLeft: "0.5em" }}
+            >
+              ✏️
+            </button>
           </li>
         ))}
       </ul>
