@@ -1,4 +1,3 @@
-// scripts/fetch-db.js
 import fs from 'node:fs/promises';
 
 const endpoints = ['users', 'posts', 'comments', 'albums', 'photos', 'todos'];
