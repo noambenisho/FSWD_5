@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Leanne Graham",
+      "username": "Bret",
+      "website": "hildegard.org",
+      "email": "Sincere@april.biz"
+    },
+    {
+      "id": "213200496",
+      "username": "noam",
+      "website": "1"
+    },
+    {
+      "id": "213200497",
+      "username": "uriel",
+      "website": "1",
+      "name": "Uriel Mangisto",
+      "email": "u@m"
+    },
+    {
+      "id": "213200498",
+      "username": "yarin",
+      "website": "1",
+      "name": "Yarin Shik",
+      "email": "y@s"
+    },
+    {
+      "id": "213200499",
+      "username": "moshe",
+      "website": "1",
+      "name": "Moshe Shahar",
+      "email": "m@s"
+    }
+  ],
+  "todos": [
+    {
+      "id": "1",
+      "userId": 213200496,
+      "title": "Learn React 1",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "userId": 213200496,
+      "title": "Learn React 2  ",
+      "completed": true
+    },
+    {
+      "id": 3,
+      "title": "Go to sleep!",
+      "completed": false,
+      "userId": "213200496"
+    },
+    {
+      "id": 4,
+      "title": "Play on the guiter",
+      "completed": false,
+      "userId": "213200496"
+    },
+    {
+      "id": 5,
+      "title": "Make some food",
+      "completed": false,
+      "userId": "213200496"
+    },
+    {
+      "id": 6,
+      "title": "Sing a song",
+      "completed": false,
+      "userId": "213200496"
+    }
+  ]
+}
