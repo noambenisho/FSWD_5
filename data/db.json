@@ -64,12 +64,6 @@
       "title": "Make some food",
       "completed": false,
       "userId": "213200496"
-    },
-    {
-      "id": 6,
-      "title": "Sing a song",
-      "completed": false,
-      "userId": "213200496"
     }
   ]
 }
