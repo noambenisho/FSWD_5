@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Register />} />\
+        <Route path="/" element={<Register />} />
         <Route path="/register" element={<Register />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/login" element={<Login />} />
@@ -26,5 +26,5 @@ function App() {
   );
 }
 
-export const BASE_URL = "http://localhost:3001";
+export const BASE_URL = "http://localhost:3000";
 export default App;

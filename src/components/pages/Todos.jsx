@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TodoForm from "../other/TodoForm";
+import { BASE_URL } from "../../App";
 
 export default function Todos() {
   const [user, setUser] = useState(null);
@@ -13,7 +14,7 @@ export default function Todos() {
     const updatedTodo = { ...todo, completed: !todo.completed };
 
     try {
-      const res = await fetch(`http://localhost:3001/todos/${todo.id}`, {
+      const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed: updatedTodo.completed }),
@@ -30,7 +31,7 @@ export default function Todos() {
 
   const deleteTodos = async (todo) => {
     try {
-      const res = await fetch(`http://localhost:3001/todos/${todo.id}`, {
+      const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
         method: "DELETE",
       });
 
@@ -67,7 +68,7 @@ export default function Todos() {
   const handleSave = async (todo) => {
     try {
       if (todo.id) {
-        const res = await fetch(`http://localhost:3001/todos/${todo.id}`, {
+        const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -81,7 +82,7 @@ export default function Todos() {
         setTodos((prev) => prev.map((t) => (t.id === todo.id ? todo : t)));
       } else {
         const newTodo = { ...todo, id: getNextNumericId(), completed: false, userId: user.id };
-        const res = await fetch(`http://localhost:3001/todos`, {
+        const res = await fetch(`${BASE_URL}/todos`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newTodo),
@@ -103,7 +104,7 @@ export default function Todos() {
     const savedUser = JSON.parse(localStorage.getItem("user"));
     if (savedUser) {
       setUser(savedUser);
-      fetch(`http://localhost:3001/todos?userId=${savedUser.id}`)
+      fetch(`${BASE_URL}/todos?userId=${savedUser.id}`)
         .then((res) => res.json())
         .then((data) => {
           setTodos(data);

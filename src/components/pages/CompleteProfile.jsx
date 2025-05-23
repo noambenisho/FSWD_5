@@ -1,6 +1,7 @@
 // CompleteProfile.jsx
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { BASE_URL } from '../../App';
 
 export default function CompleteProfile() {
   const navigate = useNavigate();
@@ -9,6 +10,9 @@ export default function CompleteProfile() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState({});
+  const [company, setCompany] = useState({});
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -16,7 +20,7 @@ export default function CompleteProfile() {
     setError('');
 
     try {
-      const res = await fetch(`http://localhost:3001/users/${userId}`, {
+      const res = await fetch(`${BASE_URL}/users/${userId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email }),
@@ -45,6 +49,13 @@ export default function CompleteProfile() {
         <div>
           <label>Email:</label>
           <input value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </div>
+        <div>
+          <label>Phone:</label>
+          <input value={phone} onChange={(e) => setPhone(e.target.value)} />  
+        </div>
+        <div> 
+          <label>Address:</label>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">Save and Continue</button>

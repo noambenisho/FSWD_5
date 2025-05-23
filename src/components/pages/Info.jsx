@@ -21,6 +21,7 @@ export default function Info() {
         <p><strong>Email:</strong> {user.email || 'N/A'}</p>
         <p><strong>Password:</strong> {user.website}</p>
         <p><strong>User ID:</strong> {user.id}</p>
+        <p><strong>Phone:</strong> {user.phone || 'N/A'}</p>
       </div>
     </div>
   );

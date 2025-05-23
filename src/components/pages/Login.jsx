@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../App';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -12,7 +13,7 @@ export default function Login() {
     setErrorMsg('');
 
     try {
-      const res = await fetch(`http://localhost:3001/users?username=${username}`);
+      const res = await fetch(`${BASE_URL}/users?username=${username}`);
       const users = await res.json();
 
       if (users.length === 0) {
