@@ -1,0 +1,74 @@
+
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #888;
+  border-radius: 4px;
+  background: #f7f7f7;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background: #eaeaea;
+}
+
+.searchInput {
+  flex: 1 1 220px;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+.addCard {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  background: #fafafa;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.selected {
+  background: #f3f9ff;
+  font-weight: 600;
+}
+
+.rowBtn {
+  background: none;
+  border: none;
+  flex: 1;
+  text-align: left;
+  cursor: pointer;
+}
+
+.icons {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.icons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}

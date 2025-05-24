@@ -1,12 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/pages/Login.jsx";
-import Home from "./components/pages/Home.jsx";
-import Register from "./components/pages/Register.jsx";
-import Info from "./components/pages/Info.jsx";
-import Todos from "./components/pages/Todos.jsx";
-import Posts from "./components/pages/Posts.jsx";
-import Albums from "./components/pages/Albums.jsx";
-import CompleteProfile from "./components/pages/CompleteProfile.jsx";
+import Login from "./pages/Login.jsx";
+import Home from "./pages/Home.jsx";
+import Register from "./pages/Register.jsx";
+import Info from "./pages/Info.jsx";
+import Todos from "./pages/Todos.jsx";
+import PostsLayout from './posts/PostsLayout.jsx';
+import PostsReview from './posts/PostsReview.jsx';
+import PostDetails from './posts/PostDetails.jsx';
+import EditPostForm from './posts/EditPostForm.jsx';
+import Albums from "./pages/Albums.jsx";
+import CompleteProfile from "./pages/CompleteProfile.jsx";
 
 function App() {
   return (
@@ -19,7 +22,11 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/info" element={<Info />} />
         <Route path="/todos" element={<Todos />} />
-        <Route path="/posts" element={<Posts />} />
+        <Route path="/posts" element={<PostsLayout />}>
+          <Route index element={<PostsReview />} />
+          <Route path=":postId" element={<PostDetails />} />
+          <Route path=":postId/edit" element={<EditPostForm />} />
+        </Route>
         <Route path="/albums" element={<Albums />} />
       </Routes>
     </Router>

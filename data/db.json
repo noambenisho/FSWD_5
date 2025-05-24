@@ -232,10 +232,18 @@
     },
     {
       "id": "213200497",
-      "username": "noam",
+      "username": "moshe",
       "website": "1",
-      "name": "Noam Benisho",
-      "email": "n@b"
+      "name": "Moshe Shahar",
+      "email": "mshahar148@gmail.com"
+    },
+    {
+      "id": "4eae",
+      "username": "ms",
+      "website": "1",
+      "name": "Moshe Shahar",
+      "email": "mshahar148@gmail.com",
+      "phone": "0585806351"
     }
   ],
   "posts": [
@@ -838,6 +846,12 @@
       "id": "100",
       "title": "at nam consequatur ea labore ea harum",
       "body": "cupiditate quo est a modi nesciunt soluta\nipsa voluptas error itaque dicta in\nautem qui minus magnam et distinctio eum\naccusamus ratione error aut"
+    },
+    {
+      "id": "469b",
+      "userId": "4eae",
+      "title": "Noam the student",
+      "body": "Noam the student, loves waffles!"
     }
   ],
   "comments": [
@@ -4340,6 +4354,13 @@
       "name": "ex eaque eum natus",
       "email": "Emma@joanny.ca",
       "body": "perspiciatis quis doloremque\nveniam nisi eos velit sed\nid totam inventore voluptatem laborum et eveniet\naut aut aut maxime quia temporibus ut omnis"
+    },
+    {
+      "id": "9f44",
+      "postId": "469b",
+      "name": "ms",
+      "email": "mshahar148@gmail.com",
+      "body": "I knew it"
     }
   ],
   "albums": [

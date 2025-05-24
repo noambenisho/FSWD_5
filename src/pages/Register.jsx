@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../App";
+import { useState }   from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth }    from '../context/AuthContext.jsx';
+import { UsersService } from '../api/UsersService.js';
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -8,23 +9,26 @@ export default function Register() {
   const [verifyPassword, setVerifyPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const getNextId = (users) => {
-    const numericIds = parseInt(users[users.length - 1].id);
-    const maxId = numericIds > 100000000 ? numericIds : 213200496;
-    return (maxId + 1).toString();
-  };
+  // const getNextId = (users) => {
+  //   const numericIds = parseInt(users[users.length - 1].id);
+  //   const maxId = numericIds > 100000000 ? numericIds : 213200496;
+  //   return (maxId + 1).toString();
+  // };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
     try {
-      const res = await fetch(`${BASE_URL}/users`);
-      const users = await res.json();
+      // const res = await fetch(${BASE_URL}/users);
+      // const users = await res.json();
+
+      const exists = await UsersService.findByUsername(username);
 
       // check if username already exists
-      if (users.some((u) => u.username === username)) {
+      if (exists) {
         setErrorMsg("Username already exists");
         return;
       }
@@ -35,38 +39,42 @@ export default function Register() {
       }
 
       // create new user
-      const newId = getNextId(users);
-      const newUser = {
-        id: newId,
-        username,
-        website: password, // we use 'website' as the password field
-      };
-
-      const createRes = await fetch(`${BASE_URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
+      const newUser = await UsersService.add({
+        username,      
+        website: password, // using "website" as pwd field
       });
 
-      if (!createRes.ok) {
-        setErrorMsg("Failed to register");
-        return;
-      }
+      login(newUser);
+      navigate('/complete-profile', { state: { userId: newUser.id } });
 
-      const createdUser = await createRes.json();
-      localStorage.setItem("user", JSON.stringify(createdUser));
-      navigate("/complete-profile", { state: { userId: createdUser.id } });
+      // const createRes = await fetch(`${BASE_URL}/users`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(newUser),
+      // });
+
+      // if (!createRes.ok) {
+      //   setErrorMsg("Failed to register");
+      //   return;
+      // }
+
+      // const createdUser = await createRes.json();
+      // localStorage.setItem("user", JSON.stringify(createdUser));
+      // navigate("/complete-profile", { state: { userId: createdUser.id } });
+
     } catch (err) {
       console.error(err);
-      setErrorMsg("Registration error");
+      setErrorMsg(err);
     }
   };
 
   return (
     <div style={{ maxWidth: "400px", margin: "auto", padding: "1em" }}>
+      
       <h2>Register</h2>
+
       <form onSubmit={handleRegister}>
         <div>
           <label>Username:</label>
@@ -94,7 +102,9 @@ export default function Register() {
             required
           />
         </div>
+
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+
         <button type="submit">Register</button>
       </form>
     </div>

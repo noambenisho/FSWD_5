@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import TodoForm from "../other/TodoForm";
-import { BASE_URL } from "../../App";
+import TodoForm from "../components/other/TodoForm";
+import { BASE_URL } from "../App";
 
 export default function Todos() {
   const [user, setUser] = useState(null);

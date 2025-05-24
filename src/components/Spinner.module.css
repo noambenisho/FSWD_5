@@ -1,0 +1,13 @@
+.spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid #ccc;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;  /* center when used as a block element */
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
