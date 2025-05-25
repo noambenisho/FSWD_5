@@ -11,20 +11,11 @@ export default function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  // const getNextId = (users) => {
-  //   const numericIds = parseInt(users[users.length - 1].id);
-  //   const maxId = numericIds > 100000000 ? numericIds : 213200496;
-  //   return (maxId + 1).toString();
-  // };
-
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
     try {
-      // const res = await fetch(${BASE_URL}/users);
-      // const users = await res.json();
-
       const exists = await UsersService.findByUsername(username);
 
       // check if username already exists
@@ -46,24 +37,7 @@ export default function Register() {
 
       login(newUser);
       navigate('/complete-profile', { state: { userId: newUser.id } });
-
-      // const createRes = await fetch(`${BASE_URL}/users`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(newUser),
-      // });
-
-      // if (!createRes.ok) {
-      //   setErrorMsg("Failed to register");
-      //   return;
-      // }
-
-      // const createdUser = await createRes.json();
-      // localStorage.setItem("user", JSON.stringify(createdUser));
-      // navigate("/complete-profile", { state: { userId: createdUser.id } });
-
+      
     } catch (err) {
       console.error(err);
       setErrorMsg(err);

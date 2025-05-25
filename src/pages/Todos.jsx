@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from "react";
-import TodoForm from "../components/other/TodoForm";
-import { BASE_URL } from "../App";
+import TodoForm from "../components/TodoForm.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+import { TodosService } from "../api/TodosService.js";
 
 export default function Todos() {
-  const [user, setUser] = useState(null);
+  const { activeUser } = useAuth();
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
   const [sortBy, setSortBy] = useState("id");
   const [showForm, setShowForm] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
 
   const handleToggleComplete = async (todo) => {
-    const updatedTodo = { ...todo, completed: !todo.completed };
-
     try {
-      const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ completed: updatedTodo.completed }),
-      });
-
-      if (!res.ok) throw new Error("Failed to update todo");
+      const completed = !todo.completed;
+      await TodosService.patch(todo.id, { completed });
 
       // Update local state
-      setTodos((prev) => prev.map((t) => (t.id === todo.id ? updatedTodo : t)));
+      setTodos((prev) => prev.map((t) => (t.id === todo.id ? { ...t, completed } : t)));
     } catch (err) {
       console.error("Error updating todo:", err);
     }
@@ -31,11 +25,7 @@ export default function Todos() {
 
   const deleteTodos = async (todo) => {
     try {
-      const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) throw new Error("Failed to delete todo");
+      await TodosService.remove(todo.id);
 
       // Update local state
       setTodos((prev) => prev.filter((t) => t.id !== todo.id));
@@ -44,56 +34,26 @@ export default function Todos() {
     }
   };
 
-  const sortedTodos = [...todos].sort((a, b) => {
-    if (sortBy === "id") {
-      return Number(a.id) - Number(b.id);
-    } else if (sortBy === "title") {
-      return a.title.localeCompare(b.title);
-    } else if (sortBy === "completed") {
-      return Number(b.completed) - Number(a.completed);
-    } else {
-      return 0;
-    }
-  });
-
-  const getNextNumericId = () => {
-    const numericIds = todos
-      .map((t) => parseInt(t.id))
-      .filter((n) => !isNaN(n));
-    const maxId = numericIds.length > 0 ? Math.max(...numericIds) : 0;
-    return maxId + 1;
-  };
-
-  // save the changes or create a new todo
   const handleSave = async (todo) => {
     try {
       if (todo.id) {
-        const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: todo.title,
-            completed: todo.completed,
-          }),
+        const updated = await TodosService.patch(todo.id, {
+          title: todo.title,
+          completed: todo.completed,
         });
-
-        if (!res.ok) throw new Error("Failed to update");
-
-        setTodos((prev) => prev.map((t) => (t.id === todo.id ? todo : t)));
+      
+        setTodos((prev) => prev.map((t) => (t.id === todo.id ? updated : t)));
       } else {
-        const newTodo = { ...todo, id: getNextNumericId(), completed: false, userId: user.id };
-        const res = await fetch(`${BASE_URL}/todos`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newTodo),
-        });
-
-        if (!res.ok) throw new Error("Failed to create");
-
-        const saved = await res.json();
+        const newTodo = {
+          ...todo,
+          completed: false,
+          userId: activeUser.id,
+        };
+      
+        const saved = await TodosService.add(newTodo);
         setTodos((prev) => [...prev, saved]);
       }
-
+    
       setShowForm(false);
     } catch (err) {
       console.error("Error saving todo:", err);
@@ -101,11 +61,8 @@ export default function Todos() {
   };
 
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-    if (savedUser) {
-      setUser(savedUser);
-      fetch(`${BASE_URL}/todos?userId=${savedUser.id}`)
-        .then((res) => res.json())
+    if (activeUser) {
+      TodosService.listByUserSorted(activeUser.id, sortBy)
         .then((data) => {
           setTodos(data);
           setLoading(false);
@@ -117,14 +74,14 @@ export default function Todos() {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [ activeUser, sortBy, showForm ]);
 
   if (loading) return <p>Loading todos...</p>;
-  if (!user) return <p>No user logged in</p>;
+  if (!activeUser) return <p>No user logged in</p>;
 
   return (
     <div style={{ maxWidth: "700px", margin: "auto", padding: "1em" }}>
-      <h2>{user.username}'s Todos</h2>
+      <h2>{activeUser.username}'s Todos</h2>
       <label>Sort by: </label>
       <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
         <option value="id">ID</option>
@@ -150,7 +107,7 @@ export default function Todos() {
       )}
 
       <ul>
-        {sortedTodos.map((todo) => (
+        {todos.map((todo) => (
           <li key={todo.id} style={{ marginBottom: "0.5em" }}>
             <input
               type="checkbox"
@@ -159,13 +116,16 @@ export default function Todos() {
               style={{ marginRight: "0.5em" }}
             />
             ({todo.id}) <strong>{todo.title}</strong>
-            <button onClick={() => deleteTodos(todo)}>-</button>
+            <button onClick={() => deleteTodos(todo)}
+             style={{ background: "none", cursor: "pointer", fontSize: "1.1em" }}>
+                🗑️
+            </button>
             <button
               onClick={() => {
                 setEditingTodo(todo);
                 setShowForm(true);
               }}
-              style={{ marginLeft: "0.5em" }}
+                style={{ background: "none", cursor: "pointer", fontSize: "1.1em" }}
             >
               ✏️
             </button>

@@ -1,15 +1,10 @@
-// import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth }    from '../context/AuthContext.jsx';
 
 export default function Info() {
-  // const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  //   const savedUser = JSON.parse(localStorage.getItem('user'));
-  //   setUser(savedUser);
-  // }, []);
 
   const { activeUser } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   if (!activeUser) {
     return <p>Please log in to view your profile.</p>;
@@ -25,6 +20,12 @@ export default function Info() {
         <p><strong>Email:</strong>    {activeUser.email  || 'N/A'}</p>
         <p><strong>User ID:</strong>  {activeUser.id}</p>
         <p><strong>Phone:</strong>    {activeUser.phone  || 'N/A'}</p>
+        <p><strong>Company:</strong> {activeUser.company?.name || 'N/A'}</p>
+        <p><strong>Address:</strong> {activeUser.address?.street || 'N/A'}, { activeUser.address?.city || 'N/A'}</p>
+        <p><strong>Password:</strong> { showPassword ? activeUser.website : '********' }</p>
+        <button onClick={() => setShowPassword((prev) => !prev)}>
+          {showPassword ? 'Hide Password' : 'Show Password'}
+        </button>
       </div>
       </div>
     </div>

@@ -7,11 +7,27 @@ export default function CompleteProfile() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const userId = location.state?.userId;
+  const userId = location.state?.userId; // יש מצב שצריך למחוק
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [company, setCompany] = useState({
+      name: ''
+      // catchPhrase: '',
+      // bs: ''
+    });
+  
+  const [address, setAddress] = useState({
+      street: '',
+      // suite: '',
+      city: ''
+      // zipcode: '',
+      // geo: {
+      //   lat: '',
+      //   lng: ''
+      // }
+    });
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -19,23 +35,29 @@ export default function CompleteProfile() {
     setError('');
 
     try {
-      // const res = await fetch(`${BASE_URL}/users/${userId}`, {
-      //   method: 'PATCH',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ name, email }),
-      // });
 
-      // if (!res.ok) {
-      //   throw new Error('Failed to update user');
-      // }
-
-      // const updatedUser = await res.json();
-
-      const patch = { name, email, phone };
+      const patch = { 
+        name,
+        email,
+        phone,
+        company: {
+          name: company.name
+          // catchPhrase: company.catchPhrase,
+          // bs: company.bs
+        },
+        address: {
+          street: address.street,
+          // suite: address.suite,
+          city: address.city
+          // zipcode: address.zipcode,
+          // geo: {
+          //   lat: address.geo.lat,
+          //   lng: address.geo.lng
+          // }
+        }
+      };
 
       const updatedUser = await UsersService.patch(userId, patch);
-
-      // localStorage.setItem('user', JSON.stringify(updatedUser));
 
       login(updatedUser);
       navigate('/home');
@@ -65,7 +87,13 @@ export default function CompleteProfile() {
           <input value={phone} onChange={(e) => setPhone(e.target.value)} />  
         </div>
         <div> 
+          <label>Company Name:</label>
+          <input value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} />
+        </div>
+        <div>
           <label>Address:</label>
+          <input value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} placeholder="City" />
+          <input value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} placeholder="Street" />
         </div>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
