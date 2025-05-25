@@ -180,7 +180,7 @@ export default function Todos() {
             />
             ({todo.id}) <strong>{todo.title}</strong>
             <button onClick={() => deleteTodos(todo)}
-             style={{ background: "none", cursor: "pointer", fontSize: "1.1em" }}>
+             style={{ background: "none", cursor: "pointer", fontSize: "1.1em", marginLeft: "0.5em" }}>
                 🗑️
             </button>
             <button
@@ -188,7 +188,7 @@ export default function Todos() {
                 setEditingTodo(todo);
                 setShowForm(true);
               }}
-                style={{ background: "none", cursor: "pointer", fontSize: "1.1em" }}
+                style={{ background: "none", cursor: "pointer", fontSize: "1.1em", marginLeft: "0.2em" }}
             >
               ✏️
             </button>
