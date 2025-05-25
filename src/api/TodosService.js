@@ -7,5 +7,5 @@ export const TodosService = {
   add:              todoObj          => request('/todos', { method: 'POST', body: JSON.stringify(todoObj) }),
   patch:            (id, patch)      => request(`/todos/${id}`, { method: 'PATCH', body: JSON.stringify(patch) }),
   remove:           id               => request(`/todos/${id}`, { method: 'DELETE' }),
-  search:           (field, value)   => request(`/todos?${field}_like=${value}`),
+  search:           (query)          => request(query),
 };

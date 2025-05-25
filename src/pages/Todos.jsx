@@ -142,6 +142,15 @@ export default function Todos() {
         <button onClick={handleSearch} style={{ marginLeft: "0.5em" }}>
           Search
         </button>
+        <button onClick={() => {
+          setSearchValue('');
+          setSortBy('id');
+          TodosService.listByUserSorted(activeUser.id, 'id')
+            .then(setTodos)
+            .catch(console.error);
+        }}>
+          Clear
+        </button>
       </div>
       <button
         onClick={() => {
