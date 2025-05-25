@@ -10,6 +10,9 @@ export default function Todos() {
   const [sortBy, setSortBy] = useState("id");
   const [showForm, setShowForm] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
+  const [searchField, setSearchField] = useState("title");
+  const [searchValue, setSearchValue] = useState("");
+
 
   const handleToggleComplete = async (todo) => {
     try {
@@ -60,6 +63,37 @@ export default function Todos() {
     }
   };
 
+  const handleSearch = () => {
+    if (!searchValue.trim()) return;
+
+    let query = `/todos?userId=${activeUser.id}`;
+
+    if (searchField === "id") {
+      query += `&id=${searchValue.trim()}`;
+    } else if (searchField === "title") {
+      query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
+    } else if (searchField === "completed") {
+      const val = searchValue.toLowerCase();
+      if (val === "true" || val === "false") {
+        query += `&completed=${val}`;
+      } else {
+        alert("Enter true or false for completed status.");
+        return;
+      }
+    }
+
+    setLoading(true);
+    TodosService.search(query)
+      .then((data) => {
+        setTodos(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Search failed:", err);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (activeUser) {
       TodosService.listByUserSorted(activeUser.id, sortBy)
@@ -89,6 +123,26 @@ export default function Todos() {
         <option value="completed">Completed</option>
       </select>
       <br />
+      <div style={{ margin: "1em 0" }}>
+        <label>Search by: </label>
+        <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <input
+          type="text"
+          placeholder="Enter search value"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          style={{ marginLeft: "1em" }}
+        />
+
+        <button onClick={handleSearch} style={{ marginLeft: "0.5em" }}>
+          Search
+        </button>
+      </div>
       <button
         onClick={() => {
           setEditingTodo(null);
