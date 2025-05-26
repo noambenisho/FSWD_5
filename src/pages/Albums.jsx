@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { AlbumsService } from "../api/AlbumsService.js";
+import PhotoManager from "../components/PhotoManager.jsx";
 
 export default function Albums() {
   const { activeUser } = useAuth();
   const [albums, setAlbums] = useState([]);
-  const [photos, setPhotos] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchField, setSearchField] = useState("title");
   const [searchValue, setSearchValue] = useState("");
-  const [expandedAlbum, setExpandedAlbum] = useState(null);
-  const [photoPage, setPhotoPage] = useState({});
+  const [showAlbumForm, setShowAlbumForm] = useState(false);
+  const [newAlbumTitle, setNewAlbumTitle] = useState("");
 
   useEffect(() => {
     if (activeUser) {
@@ -48,17 +48,14 @@ export default function Albums() {
       .catch(console.error);
   };
 
-  const toggleAlbum = async (albumId) => {
-    const currentPage = photoPage[albumId] || 0;
-    const nextPage = currentPage + 1;
-
-    const newPhotos = await AlbumsService.getPhotos(albumId, currentPage * 5, 5);
-    setPhotos((prev) => ({
-      ...prev,
-      [albumId]: [...(prev[albumId] || []), ...newPhotos],
-    }));
-    setPhotoPage((prev) => ({ ...prev, [albumId]: nextPage }));
-    setExpandedAlbum(albumId);
+  const handleAddAlbum = (e) => {
+    e.preventDefault();
+    const album = { title: newAlbumTitle, userId: activeUser.id };
+    AlbumsService.add(album)
+      .then((saved) => setAlbums((prev) => [...prev, saved]))
+      .catch(console.error);
+    setNewAlbumTitle("");
+    setShowAlbumForm(false);
   };
 
   if (loading) return <p>Loading albums...</p>;
@@ -74,7 +71,6 @@ export default function Albums() {
           <option value="id">ID</option>
           <option value="title">Title</option>
         </select>
-
         <input
           type="text"
           placeholder="Enter search value"
@@ -82,35 +78,29 @@ export default function Albums() {
           onChange={(e) => setSearchValue(e.target.value)}
           style={{ marginLeft: "1em" }}
         />
-
         <button onClick={handleSearch} style={{ marginLeft: "0.5em" }}>Search</button>
         <button onClick={handleClear} style={{ marginLeft: "0.5em" }}>Clear</button>
       </div>
 
+      <button onClick={() => setShowAlbumForm(true)}>Add Album</button>
+      {showAlbumForm && (
+        <form onSubmit={handleAddAlbum}>
+          <input
+            value={newAlbumTitle}
+            onChange={(e) => setNewAlbumTitle(e.target.value)}
+            placeholder="Album Title"
+            required
+          />
+          <button type="submit">Save</button>
+          <button type="button" onClick={() => setShowAlbumForm(false)}>Cancel</button>
+        </form>
+      )}
+
       <ul>
         {albums.map((album) => (
-          <li key={album.id} style={{ marginBottom: "1em" }}>
-            ({album.id}) <strong>{album.title}</strong> 
-            <button onClick={() => toggleAlbum(album.id)} style={{ marginLeft: "1em" }}>
-              {photos[album.id]?.length > 0 ? "Load More" : "View Photos"}
-            </button>
-            {photos[album.id]?.length > 0 && 
-            <button 
-              onClick={() => {
-                setPhotos((prev) => ({ ...prev, [album.id]: [] }));
-                setPhotoPage((prev) => ({ ...prev, [album.id]: 0 }));
-                setExpandedAlbum(null);
-              }} 
-              style={{ marginLeft: "0.5em" }}>
-                Hide Photos
-            </button>}
-            {photos[album.id] && (
-              <div style={{ marginTop: "0.5em", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: "0.5em" }}>
-                {photos[album.id].map((photo) => (
-                  <img key={photo.id} src={photo.thumbnailUrl} alt={photo.title} style={{ width: "100%" }} />
-                ))}
-              </div>
-            )}
+          <li key={album.id} style={{ marginBottom: "2em" }}>
+            ({album.id}) <strong>{album.title}</strong>
+            {<PhotoManager albumId={album.id} />}
           </li>
         ))}
       </ul>

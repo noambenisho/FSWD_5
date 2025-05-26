@@ -80,6 +80,9 @@ export default function Register() {
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
         <button type="submit">Register</button>
+        <a href="/login" style={{ marginLeft: "1em" }}>
+          Already have an account? Login
+        </a>
       </form>
     </div>
   );

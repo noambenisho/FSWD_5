@@ -8,5 +8,9 @@ export const AlbumsService = {
     patch:            (id, patch)                        => request(`/albums/${id}`, { method: 'PATCH', body: JSON.stringify(patch) }),
     remove:           id                                 => request(`/albums/${id}`, { method: 'DELETE' }),
     search:           (query)                            => request(query),
-    getPhotos:        (albumId, _start = 0, _limit = 10) => request(`/photos?albumId=${albumId}&_start=${_start}&_limit=${_limit}`)
+    getPhotos:        (albumId, _start = 0, _limit = 5)  => request(`/photos?albumId=${albumId}&_start=${_start}&_limit=${_limit}`),
+    addPhoto:         (photo)                            => request(`/photos`, {method: 'POST', body: JSON.stringify(photo)}),
+    removePhoto:      (id)                               => request(`/photos/${id}`, {method: 'DELETE'}),
+    updatePhoto:      (id, patch)                        => request(`/photos/${id}`, { method: 'PATCH', body: JSON.stringify(patch)})
+
 };
