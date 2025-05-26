@@ -19,17 +19,21 @@ export default function PostsLayout() {
   // Fetch whenever user or search changes
   useEffect(() => {
     if (!activeUser) return;
+
     const fn = search
       ? PostsService.search(activeUser.id, search)
       : PostsService.list(activeUser.id);
 
     setLoading(true);
-    fn.then(setPosts)
-    .catch(e => setError(e.message))
-    .finally(() => setLoading(false));
+
+    fn
+      .then(setPosts)
+      .catch(e => setError(e.message))
+      .finally(() => setLoading(false));
+
   }, [activeUser?.id, search]);
 
-  const ctxValue = { posts, setPosts, selectedId, setSelectedId, search, setSearch, setError };
+  const ctxValue = { posts, setPosts, selectedId, setSelectedId, search, setSearch, setError, loading };
 
   return (
     <PostsCtx.Provider value={ctxValue}>

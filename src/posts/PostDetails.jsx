@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { PostsService } from '../api/PostsService.js';
 import { usePosts } from './PostsLayout.jsx';
 import styles from './PostDetails.module.css';
+import Spinner from '../components/Spinner.jsx';
 
 export default function PostDetails() {
   const { postId } = useParams();
@@ -16,15 +17,17 @@ export default function PostDetails() {
 
   useEffect(() => {
     setLoading(true);
+
     Promise.all([
       PostsService.get(postId).then(setPost),
       PostsService.comments.list(postId).then(setComments)
     ]).catch(e => setError(e.message))
       .finally(() => setLoading(false));
+      
   }, [postId]);
 
   // Add comment
-  const addComment = async e => {
+  const handleAddComment = async e => {
     e.preventDefault();
     const body = e.target.body.value.trim();
 
@@ -36,7 +39,7 @@ export default function PostDetails() {
         postId,
         name: activeUser.username,
         email: activeUser.email,
-        body
+        body,
       });
       setComments(c => [...c, newC]);
     } catch (e) { 
@@ -45,18 +48,19 @@ export default function PostDetails() {
   };
 
   // Delete comment
-  const delComment = async cid => {
+  const handleDelComment = async cid => {
     const prev = comments;
     setComments(c => c.filter(x => x.id !== cid));
-    try { await PostsService.comments.remove(cid); }
-    catch (e) {
+    try { 
+      await PostsService.comments.remove(cid); 
+    } catch (e) {
       setComments(prev);
       setError('Delete comment failed: ' + e.message);
     }
   };
 
-  if (loading) return <p>Loading…</p>;
-  if (!post)   return <p>Post not found.</p>;
+  if (loading) return <Spinner />;
+  if (!post) return <p>Post not found.</p>;
 
   return (
     <section>
@@ -68,16 +72,16 @@ export default function PostDetails() {
         {comments.map(c => (
           <li key={c.id}>
             <div className={styles.commentHead}>
-              <span>{c.email}</span>
+              <span>{c.name || c.email}</span>
               {c.email === activeUser.email &&
-                <button onClick={() => delComment(c.id)}>🗑</button>}
+                <button onClick={() => handleDelComment(c.id)}>🗑</button>}
             </div>
             <p>{c.body}</p>
           </li>
         ))}
       </ul>
 
-      <form onSubmit={addComment} className={styles.addComment}>
+      <form onSubmit={handleAddComment} className={styles.addComment}>
         <input name="body" placeholder="Add a comment…" />
         <button className={styles.btn}>Send</button>
       </form>
