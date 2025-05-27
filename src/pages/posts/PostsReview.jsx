@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState }   from 'react';
 import { usePosts } from './PostsLayout.jsx';
-import { useAuth } from '../context/AuthContext.jsx';
-import { PostsService } from '../api/PostsService.js';
-import SearchBar from '../components/SearchBar.jsx';
-import Spinner from '../components/Spinner.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { PostsService } from '../../api/PostsService.js';
+import SearchBar from '../../components/SearchBar.jsx';
+import Spinner from '../../components/Spinner.jsx';
 import styles from './PostsReview.module.css';
 
 export default function PostsReview() {

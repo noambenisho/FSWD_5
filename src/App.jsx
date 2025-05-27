@@ -4,10 +4,10 @@ import Home from "./pages/Home.jsx";
 import Register from "./pages/Register.jsx";
 import Info from "./pages/Info.jsx";
 import Todos from "./pages/Todos.jsx";
-import PostsLayout from './posts/PostsLayout.jsx';
-import PostsReview from './posts/PostsReview.jsx';
-import PostDetails from './posts/PostDetails.jsx';
-import EditPostForm from './posts/EditPostForm.jsx';
+import PostsLayout from './pages/posts/PostsLayout.jsx';
+import PostsReview from './pages/posts/PostsReview.jsx';
+import PostDetails from './pages/posts/PostDetails.jsx';
+import EditPostForm from './pages/posts/EditPostForm.jsx';
 import Albums from "./pages/Albums.jsx";
 import CompleteProfile from "./pages/CompleteProfile.jsx";
 

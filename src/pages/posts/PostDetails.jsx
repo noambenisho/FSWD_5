@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
-import { PostsService } from '../api/PostsService.js';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { PostsService } from '../../api/PostsService.js';
 import { usePosts } from './PostsLayout.jsx';
 import styles from './PostDetails.module.css';
-import Spinner from '../components/Spinner.jsx';
+import Spinner from '../../components/Spinner.jsx';
 
 export default function PostDetails() {
   const { postId } = useParams();

@@ -1,8 +1,8 @@
 import { Outlet, useOutletContext } from 'react-router-dom';
 import { useState, useEffect, createContext } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
-import { PostsService } from '../api/PostsService.js';
-import Spinner from '../components/Spinner.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { PostsService } from '../../api/PostsService.js';
+import Spinner from '../../components/Spinner.jsx';
 import styles from './PostsLayout.module.css';
 
 export const PostsCtx = createContext(null);

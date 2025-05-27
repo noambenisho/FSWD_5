@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
-import { PostsService } from '../api/PostsService.js';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { PostsService } from '../../api/PostsService.js';
 import { usePosts } from './PostsLayout.jsx';
 import styles from './EditPostForm.module.css';
-import Spinner from '../components/Spinner.jsx';
+import Spinner from '../../components/Spinner.jsx';
 
 export default function EditPostForm() {
   const { postId } = useParams();
