@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { TodosService } from "../api/TodosService.js";
 import Spinner from "../components/Spinner.jsx";
 import SearchBar from "../components/SearchBar.jsx";
+import BackButton from "../components/BackButton.jsx";
 
 export default function Todos() {
   const { activeUser } = useAuth();
@@ -104,6 +105,7 @@ export default function Todos() {
 
   return (
     <div style={{ maxWidth: "700px", margin: "auto", padding: "1em" }}>
+      <BackButton />
       <h2>{activeUser.username}'s Todos</h2>
       <label>Sort by: </label>
       <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>

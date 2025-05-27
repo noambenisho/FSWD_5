@@ -1,0 +1,22 @@
+.backBtn {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 2em;
+  padding: 0.5em 1em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+.backBtn:hover {
+  background-color: #3b7ac7;
+}

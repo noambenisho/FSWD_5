@@ -4,6 +4,7 @@ import { AlbumsService } from "../api/AlbumsService.js";
 import PhotoManager from "./PhotoManager.jsx";
 import Spinner from "../components/Spinner.jsx";
 import SearchBar from "../components/SearchBar.jsx";
+import BackButton from "../components/BackButton.jsx";
 
 export default function Albums() {
   const { activeUser } = useAuth();
@@ -53,6 +54,7 @@ export default function Albums() {
 
   return (
     <div style={{ maxWidth: "700px", margin: "auto", padding: "1em" }}>
+      <BackButton />
       <h2>{activeUser.username}'s Albums</h2>
 
       <label>Search by: </label>

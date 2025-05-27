@@ -5,7 +5,7 @@ export default function SearchBar({ value, onChange, className = '' }) {
     <div className={`${styles.wrapper} ${className}`}>
       <input
       className={`${styles.searchInput}`}
-      placeholder="Search by title…"
+      placeholder="Search…"
       value={value}
       onChange={e => onChange(e.target.value)}
       autoFocus
