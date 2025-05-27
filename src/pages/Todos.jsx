@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { TodosService } from "../api/TodosService.js";
 import Spinner from "../components/Spinner.jsx";
 import SearchBar from "../components/SearchBar.jsx";
-import { AlbumsService } from "../api/AlbumsService.js";
 
 export default function Todos() {
   const { activeUser } = useAuth();
@@ -64,37 +63,6 @@ export default function Todos() {
     } catch (err) {
       console.error("Error saving todo:", err);
     }
-  };
-
-  const handleSearch = () => {
-    if (!searchValue.trim()) return;
-
-    let query = `/todos?userId=${activeUser.id}`;
-
-    if (searchField === "id") {
-      query += `&id=${searchValue.trim()}`;
-    } else if (searchField === "title") {
-      query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
-    } else if (searchField === "completed") {
-      const val = searchValue.toLowerCase();
-      if (val === "true" || val === "false") {
-        query += `&completed=${val}`;
-      } else {
-        alert("Enter true or false for completed status.");
-        return;
-      }
-    }
-
-    setLoading(true);
-    TodosService.search(query)
-      .then((data) => {
-        setTodos(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Search failed:", err);
-        setLoading(false);
-      });
   };
 
   useEffect(() => {

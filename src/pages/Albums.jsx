@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { AlbumsService } from "../api/AlbumsService.js";
 import PhotoManager from "./PhotoManager.jsx";
 import Spinner from "../components/Spinner.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 export default function Albums() {
   const { activeUser } = useAuth();
@@ -15,39 +16,27 @@ export default function Albums() {
 
   useEffect(() => {
     if (activeUser) {
-      AlbumsService.list(activeUser.id)
-        .then(setAlbums)
-        .catch(console.error)
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [activeUser]);
-
-  const handleSearch = () => {
-    if (!searchValue.trim()) return;
-
-    let query = `/albums?userId=${activeUser.id}`;
-
-    if (searchField === "id") {
-      query += `&id=${searchValue.trim()}`;
-    } else if (searchField === "title") {
-      query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
-    }
-
-    setLoading(true);
-    AlbumsService.search(query)
-      .then(setAlbums)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  };
-
-  const handleClear = () => {
-    setSearchValue("");
-    AlbumsService.list(activeUser.id)
-      .then(setAlbums)
-      .catch(console.error);
-  };
+          let query = `?userId=${activeUser.id}`;
+    
+          if (searchField === "id") {
+            query += `&id=${searchValue.trim()}`;
+          } else if (searchField === "title") {
+            query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
+          }          
+          const fn = searchValue
+            ? AlbumsService.search(query)
+            : AlbumsService.list(activeUser.id);
+          setLoading(true);
+          fn
+            .then((data) => {
+              setAlbums(data);
+              setLoading(false);
+            })
+            .finally(() => setLoading(false));
+        } else {
+          setLoading(false);
+        }
+  }, [activeUser?.id, searchValue]);
 
   const handleAddAlbum = (e) => {
     e.preventDefault();
@@ -66,22 +55,15 @@ export default function Albums() {
     <div style={{ maxWidth: "700px", margin: "auto", padding: "1em" }}>
       <h2>{activeUser.username}'s Albums</h2>
 
-      <div style={{ margin: "1em 0" }}>
-        <label>Search by: </label>
-        <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
-          <option value="id">ID</option>
-          <option value="title">Title</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Enter search value"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          style={{ marginLeft: "1em" }}
-        />
-        <button onClick={handleSearch} style={{ marginLeft: "0.5em" }}>Search</button>
-        <button onClick={handleClear} style={{ marginLeft: "0.5em" }}>Clear</button>
-      </div>
+      <label>Search by: </label>
+      <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
+        <option value="id">ID</option>
+        <option value="title">Title</option>
+      </select>
+      <SearchBar
+        value={searchValue}
+        onChange={setSearchValue}
+      />
 
       <button onClick={() => setShowAlbumForm(true)}>Add Album</button>
       {showAlbumForm && (
