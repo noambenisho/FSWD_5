@@ -15,20 +15,7 @@ export default function Login() {
     setErrorMsg('');
 
     try {
-      // const res = await fetch(`${BASE_URL}/users?username=${username}`);
-      // const users = await res.json();
-
-      // if (users.length === 0) {
-      //   setErrorMsg('Username not found');
-      //   return;
-      // }
-
-      // const user = users[0];
-      // if (user.website !== password) {
-      //   setErrorMsg('Incorrect password');
-      //   return;
-      // }
-
+      
       // Find user by username
       const user = await UsersService.findByUsername(username);
 
@@ -41,8 +28,6 @@ export default function Login() {
         setErrorMsg('Incorrect password');
         return;
       }
-
-      // localStorage.setItem('user', JSON.stringify(user));
 
       login(user);
       navigate('/home');

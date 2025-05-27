@@ -4885,6 +4885,11 @@
       "title": "Moshes album",
       "userId": 1,
       "id": 103
+    },
+    {
+      "title": "my first album",
+      "userId": 11,
+      "id": 104
     }
   ],
   "photos": [
@@ -39887,6 +39892,13 @@
       "thumbnailUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi-O9OCjpI-7q-D_7cRbQ1AYOO-SBSbNi3zw&s",
       "albumId": 103,
       "id": 5004
+    },
+    {
+      "title": "my first photo",
+      "url": "https://media.istockphoto.com/id/485371557/photo/twilight-at-spirit-island.jpg?s=612x612&w=0&k=20&c=FSGliJ4EKFP70Yjpzso0HfRR4WwflC6GKfl4F3Hj7fk=",
+      "thumbnailUrl": "https://media.istockphoto.com/id/485371557/photo/twilight-at-spirit-island.jpg?s=612x612&w=0&k=20&c=FSGliJ4EKFP70Yjpzso0HfRR4WwflC6GKfl4F3Hj7fk=",
+      "albumId": 104,
+      "id": 5005
     }
   ],
   "todos": [

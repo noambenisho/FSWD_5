@@ -1,7 +1,6 @@
 import { request } from "./HttpClient";
 
 export const TodosService = {
-  // list:             (userId)         => request(`/todos?userId=${userId}`),
   listByUserSorted: (userId, sortBy) => request(`/todos?userId=${userId}&_sort=${sortBy}&_order=asc`),
   get:              id               => request(`/todos/${id}`),
   add:              todoObj          => request('/todos', { method: 'POST', body: JSON.stringify(todoObj) }),

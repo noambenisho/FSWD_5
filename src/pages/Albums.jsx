@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { AlbumsService } from "../api/AlbumsService.js";
-import PhotoManager from "../components/PhotoManager.jsx";
+import PhotoManager from "./PhotoManager.jsx";
 import Spinner from "../components/Spinner.jsx";
 
 export default function Albums() {

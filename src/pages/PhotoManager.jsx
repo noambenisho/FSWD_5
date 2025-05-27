@@ -57,7 +57,7 @@ export default function PhotoManager({ albumId }) {
         <>
           <form onSubmit={handleAddPhoto} style={{ marginBottom: "1em" }}>
             <input value={newPhoto.title} onChange={e => setNewPhoto(p => ({ ...p, title: e.target.value }))} placeholder="Title" required />
-            <input value={newPhoto.url} onChange={e => setNewPhoto(p => ({ ...p, url: e.target.value, thumbnailUrl: e.target.value }))} placeholder="Image URL" required />
+            <input value={newPhoto.url} onChange={e => setNewPhoto(p => ({ ...p, url: e.target.value, thumbnailUrl: e.target.value.replace("/600/400", "/150/100") }))} placeholder="Image URL" required />
             <button type="submit">Add Photo</button>
           </form>
 
