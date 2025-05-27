@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { AlbumsService } from "../api/AlbumsService.js";
 import PhotoManager from "../components/PhotoManager.jsx";
+import Spinner from "../components/Spinner.jsx";
 
 export default function Albums() {
   const { activeUser } = useAuth();
@@ -58,7 +59,7 @@ export default function Albums() {
     setShowAlbumForm(false);
   };
 
-  if (loading) return <p>Loading albums...</p>;
+  if (loading) return <Spinner />;
   if (!activeUser) return <p>No user logged in</p>;
 
   return (

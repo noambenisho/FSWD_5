@@ -14,8 +14,8 @@ export default function PhotoManager({ albumId }) {
   }, [albumId]);
 
   const loadMorePhotos = async () => {
-    const start = photoPage * 5;
-    const newBatch = await AlbumsService.getPhotos(albumId, start, 5);
+    const start = photoPage * 8;
+    const newBatch = await AlbumsService.getPhotos(albumId, start, 8);
     setPhotos(prev => [...prev, ...newBatch]);
     setPhotoPage(prev => prev + 1);
   };
@@ -62,7 +62,7 @@ export default function PhotoManager({ albumId }) {
             <button type="submit">Add Photo</button>
           </form>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: "0.5em" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(100px, 1fr))", gap: "0.5em" }}>
             {photos.map((photo) => (
               <div key={photo.id} style={{ position: "relative" }}>
                 <img src={photo.thumbnailUrl} alt={photo.title} style={{ width: "100%" }} />

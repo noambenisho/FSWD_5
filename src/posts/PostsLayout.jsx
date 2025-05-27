@@ -15,13 +15,25 @@ export default function PostsLayout() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchField, setSearchField] = useState("title");
+  
 
   // Fetch whenever user or search changes
   useEffect(() => {
     if (!activeUser) return;
 
+    let query = `?userId=${activeUser.id}`;
+
+    if (searchField === "id") {
+      query += `&id=${search.trim()}`;
+    } else if (searchField === "title") {
+      query += `&title_like=${encodeURIComponent(search.trim())}`;
+    } else {
+        return;
+      }
+
     const fn = search
-      ? PostsService.search(activeUser.id, search)
+      ? PostsService.search(query)
       : PostsService.list(activeUser.id);
 
     setLoading(true);
@@ -33,7 +45,7 @@ export default function PostsLayout() {
 
   }, [activeUser?.id, search]);
 
-  const ctxValue = { posts, setPosts, selectedId, setSelectedId, search, setSearch, setError, loading };
+  const ctxValue = { posts, setPosts, selectedId, setSelectedId, search, setSearch, setError, loading, searchField, setSearchField };
 
   return (
     <PostsCtx.Provider value={ctxValue}>

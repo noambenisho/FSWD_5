@@ -2,7 +2,7 @@ import { request } from './HttpClient.js';
 
 export const PostsService = {
   list:    userId       => request(`/posts?userId=${userId}`),
-  search:  (userId, q)  => request(`/posts?userId=${userId}&title_like=${encodeURIComponent(q)}`),
+  search:  (q)          => request(`/posts${q}`),
   get:     id           => request(`/posts/${id}`),
   add:     post         => request('/posts', { method:'POST', body: JSON.stringify(post) }),
   patch:   (id, patch)  => request(`/posts/${id}`, { method:'PATCH', body: JSON.stringify(patch) }),

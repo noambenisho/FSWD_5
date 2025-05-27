@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import TodoForm from "../components/TodoForm.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { TodosService } from "../api/TodosService.js";
+import Spinner from "../components/Spinner.jsx";
+import SearchBar from "../components/SearchBar.jsx";
+import { AlbumsService } from "../api/AlbumsService.js";
 
 export default function Todos() {
   const { activeUser } = useAuth();
@@ -95,22 +98,40 @@ export default function Todos() {
   };
 
   useEffect(() => {
-    if (activeUser) {
-      TodosService.listByUserSorted(activeUser.id, sortBy)
+    if (activeUser) {     
+      let query = `?userId=${activeUser.id}`;
+
+      if (searchField === "id") {
+        query += `&id=${searchValue.trim()}`;
+      } else if (searchField === "title") {
+        query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
+      } else if (searchField === "completed") {
+        const val = searchValue.toLowerCase();
+        if (val === "true" || val === "false") {
+          query += `&completed=${val}`;
+        } else {
+          alert("Enter true or false for completed status.");
+          return;
+        }
+      }
+      
+      const fn = searchValue
+        ? TodosService.search(query)
+        : TodosService.listByUserSorted(activeUser.id, sortBy);
+      setLoading(true);
+
+      fn
         .then((data) => {
           setTodos(data);
           setLoading(false);
         })
-        .catch((err) => {
-          console.error("Failed to fetch todos:", err);
-          setLoading(false);
-        });
+        .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
-  }, [ activeUser, sortBy, showForm ]);
+  }, [ activeUser?.id, sortBy, showForm, searchValue ]);
 
-  if (loading) return <p>Loading todos...</p>;
+  if (loading) return <Spinner />;
   if (!activeUser) return <p>No user logged in</p>;
 
   return (
@@ -123,35 +144,19 @@ export default function Todos() {
         <option value="completed">Completed</option>
       </select>
       <br />
-      <div style={{ margin: "1em 0" }}>
-        <label>Search by: </label>
-        <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
-          <option value="id">ID</option>
-          <option value="title">Title</option>
-          <option value="completed">Completed</option>
-        </select>
-
-        <input
-          type="text"
-          placeholder="Enter search value"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          style={{ marginLeft: "1em" }}
-        />
-
-        <button onClick={handleSearch} style={{ marginLeft: "0.5em" }}>
-          Search
-        </button>
-        <button onClick={() => {
-          setSearchValue('');
-          setSortBy('id');
-          TodosService.listByUserSorted(activeUser.id, 'id')
-            .then(setTodos)
-            .catch(console.error);
-        }}>
-          Clear
-        </button>
-      </div>
+      <select
+        value={searchField}
+        onChange={(e) => setSearchField(e.target.value)}
+        style={{ marginTop: "0.5em" }}
+      >
+        <option value="id">ID</option>    
+        <option value="title">Title</option>
+        <option value="completed">Completed</option>
+      </select>
+      <SearchBar
+        value={searchValue}
+        onChange={setSearchValue}
+      />
       <button
         onClick={() => {
           setEditingTodo(null);

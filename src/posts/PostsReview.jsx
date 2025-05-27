@@ -13,7 +13,7 @@ export default function PostsReview() {
   const {
     posts, setPosts,
     selectedId, setSelectedId,
-    search, setSearch, setError, loading
+    search, setSearch, setError, loading, searchField, setSearchField
   } = usePosts();
 
    // States for the inline “new post” form
@@ -66,6 +66,15 @@ export default function PostsReview() {
           <button className={styles.btn} onClick={() => setShowForm(!showForm)}>
             {showForm ? 'Cancel' : '+ New'}
           </button>
+
+          <select
+            value={searchField}
+            onChange={(e) => setSearchField(e.target.value)}
+            style={{ marginTop: "0.5em" }}
+          >
+            <option value="id">ID</option>    
+            <option value="title">Title</option>
+          </select>
 
           <SearchBar className={styles.searchInput}
           value={search}
