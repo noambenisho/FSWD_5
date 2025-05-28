@@ -14,8 +14,8 @@ export default function LogoutButton() {
 
   return (
     <button className={styles.logoutBtn} onClick={handleLogout}>
-      <LogOut size={18} style={{ marginRight: '0.5em' }} />
-      Log Out
+      <LogOut />
+      &nbsp; Log Out
     </button>
   );
 }

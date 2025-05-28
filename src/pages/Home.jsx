@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Info from './Info.jsx';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css'; 
+import LogoutButton from '../components/LogoutButton.jsx';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -17,15 +18,16 @@ export default function Home() {
     }
   }, [activeUser, navigate]);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   navigate('/login');
+  // };
 
   if (!activeUser) return <p>Redirecting...</p>;
 
   return (
     <main  className={styles.container}>
+      <LogoutButton />
       <section className={styles.hero}>
         
         <h1>Welcome, {activeUser.username || 'friend'}!</h1>
@@ -36,7 +38,7 @@ export default function Home() {
           <Link className={styles.navBtn} to="/posts">Posts</Link>
           <Link className={styles.navBtn} to="/albums">Albums</Link>
           <button className={styles.navBtn} onClick={() => setShowInfo(!showInfo)}>Info</button>
-          <button  className={styles.navBtn} onClick={handleLogout}>Log Out</button>
+          {/* <button  className={styles.navBtn} onClick={handleLogout}>Log Out</button> */}
         </nav>
 
         <p>Enjoy exploring your content, {activeUser.username || 'friend'}!</p>

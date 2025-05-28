@@ -4,6 +4,9 @@ import { AlbumsService } from "../api/AlbumsService.js";
 import PhotoManager from "./PhotoManager.jsx";
 import Spinner from "../components/Spinner.jsx";
 import styles from './Albums.module.css';
+import { Search } from "lucide-react";
+import SearchBar from "../components/SearchBar.jsx";
+import BackButton from "../components/BackButton.jsx";
 
 export default function Albums() {
   const { activeUser } = useAuth();
@@ -53,6 +56,7 @@ export default function Albums() {
 
   return (
     <main className={styles.container}>
+      <BackButton />
 
       <section className={styles.hero}>
         <h2>{activeUser.username}&apos;s Albums</h2>
@@ -68,16 +72,13 @@ export default function Albums() {
             <option value="title">Title</option>
           </select>
 
-          <input
-            type="text"
+          <SearchBar 
             className={styles.searchInput}
+            value={searchValue} 
+            onChange={setSearchValue}
             placeholder={`Search by ${searchField}...`}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
           />
           
-          <button className={styles.primaryBtn} onClick={handleSearch}>Search</button>
-          <button className={styles.controlBtn} onClick={handleClear}>Clear</button>
         </div>
 
         <button className={styles.addBtn} onClick={() => setShowAlbumForm((prev ) => !prev)}>Add Album</button>

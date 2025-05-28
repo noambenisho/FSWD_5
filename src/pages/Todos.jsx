@@ -5,6 +5,7 @@ import { TodosService } from "../api/TodosService.js";
 import Spinner from "../components/Spinner.jsx";
 import SearchBar from "../components/SearchBar.jsx";
 import styles from './Todos.module.css';
+import BackButton from "../components/BackButton.jsx";
 
 export default function Todos() {
   const { activeUser } = useAuth();
@@ -78,9 +79,10 @@ export default function Todos() {
         const val = searchValue.toLowerCase();
         if (val === "true" || val === "false") {
           query += `&completed=${val}`;
-        } else {
-          alert("Enter true or false for completed status.");
+        } else if (val) {
           return;
+        } else {
+          query = `?userId=${activeUser.id}`; 
         }
       }
       
@@ -105,6 +107,7 @@ export default function Todos() {
 
   return (
     <main className={styles.container}>
+      <BackButton />
       <section className={styles.hero}>
         <h2>{activeUser.username}&apos;s Todos</h2>
 
@@ -151,6 +154,14 @@ export default function Todos() {
           </button>
         </div>
 
+        {showForm && (
+          <TodoForm
+            initialData={editingTodo}
+            onSave={handleSave}
+            onCancel={() => setShowForm(false)}
+          />
+        )}
+
         {/* ─── Todo grid ─────────────────────────── */}
         <ul className={styles.grid}>
           {todos.map((todo) => (
@@ -187,15 +198,6 @@ export default function Todos() {
             </li>
           ))}
         </ul>
-
-        {/* ─── modal form ────────────────────────── */}
-        {showForm && (
-          <TodoForm
-            initialData={editingTodo}
-            onSave={handleSave}
-            onCancel={() => setShowForm(false)}
-          />
-        )}
       </section>
     </main>
   );
