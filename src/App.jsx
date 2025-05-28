@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login.jsx";
-import Home from "./pages/Home.jsx";
-import Register from "./pages/Register.jsx";
-import Info from "./pages/Info.jsx";
-import Todos from "./pages/Todos.jsx";
-import PostsLayout from './pages/posts/PostsLayout.jsx';
-import PostsReview from './pages/posts/PostsReview.jsx';
-import PostDetails from './pages/posts/PostDetails.jsx';
-import EditPostForm from './pages/posts/EditPostForm.jsx';
-import Albums from "./pages/Albums.jsx";
-import CompleteProfile from "./pages/CompleteProfile.jsx";
-import './styles/App.module.css';
+import Login from "./pages/auth/Login.jsx";
+import Home from "./pages/home/Home.jsx";
+import Register from "./pages/auth/Register.jsx";
+import Info from "./pages/home/Info.jsx";
+import Todos from "./pages/todos/Todos.jsx";
+import PostsLayout from "./pages/posts/PostsLayout.jsx";
+import PostsReview from "./pages/posts/PostsReview.jsx";
+import PostDetails from "./pages/posts/PostDetails.jsx";
+import EditPostForm from "./pages/posts/EditPostForm.jsx";
+import Albums from "./pages/albums/Albums.jsx";
+import CompleteProfile from "./pages/auth/CompleteProfile.jsx";
+import "./styles/App.module.css";
 
 function App() {
   return (

@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-import TodoForm from "../components/TodoForm.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
-import { TodosService } from "../api/TodosService.js";
-import Spinner from "../components/Spinner.jsx";
-import SearchBar from "../components/SearchBar.jsx";
-import styles from './Todos.module.css';
-import BackButton from "../components/BackButton.jsx";
+import TodoForm from "./TodoForm.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { TodosService } from "../../api/TodosService.js";
+import Spinner from "../../components/Spinner.jsx";
+import SearchBar from "../../components/SearchBar.jsx";
+import styles from "./Todos.module.css";
+import BackButton from "../../components/BackButton.jsx";
 
 export default function Todos() {
   const { activeUser } = useAuth();
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("id");
   const [showForm, setShowForm] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
   const [searchField, setSearchField] = useState("title");
   const [searchValue, setSearchValue] = useState("");
-
 
   const handleToggleComplete = async (todo) => {
     try {
@@ -24,7 +23,9 @@ export default function Todos() {
       await TodosService.patch(todo.id, { completed });
 
       // Update local state
-      setTodos((prev) => prev.map((t) => (t.id === todo.id ? { ...t, completed } : t)));
+      setTodos((prev) =>
+        prev.map((t) => (t.id === todo.id ? { ...t, completed } : t))
+      );
     } catch (err) {
       console.error("Error updating todo:", err);
     }
@@ -48,7 +49,7 @@ export default function Todos() {
           title: todo.title,
           completed: todo.completed,
         });
-      
+
         setTodos((prev) => prev.map((t) => (t.id === todo.id ? updated : t)));
       } else {
         const newTodo = {
@@ -56,11 +57,11 @@ export default function Todos() {
           completed: false,
           userId: activeUser.id,
         };
-      
+
         const saved = await TodosService.add(newTodo);
         setTodos((prev) => [...prev, saved]);
       }
-    
+
       setShowForm(false);
     } catch (err) {
       console.error("Error saving todo:", err);
@@ -68,7 +69,7 @@ export default function Todos() {
   };
 
   useEffect(() => {
-    if (activeUser) {     
+    if (activeUser) {
       let query = `?userId=${activeUser.id}`;
 
       if (searchField === "id") {
@@ -82,25 +83,23 @@ export default function Todos() {
         } else if (val) {
           return;
         } else {
-          query = `?userId=${activeUser.id}`; 
+          query = `?userId=${activeUser.id}`;
         }
       }
-      
+
       const fn = searchValue
         ? TodosService.search(query)
         : TodosService.listByUserSorted(activeUser.id, sortBy);
       setLoading(true);
 
-      fn
-        .then((data) => {
-          setTodos(data);
-          setLoading(false);
-        })
-        .finally(() => setLoading(false));
+      fn.then((data) => {
+        setTodos(data);
+        setLoading(false);
+      }).finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
-  }, [ activeUser?.id, sortBy, showForm, searchValue ]);
+  }, [activeUser?.id, sortBy, showForm, searchValue]);
 
   if (loading) return <Spinner />;
   if (!activeUser) return <p>No user logged in</p>;
@@ -114,7 +113,7 @@ export default function Todos() {
         {/* ─── toolbar ───────────────────────────── */}
         <div className={styles.toolbar}>
           <label>
-            Sort by:{' '}
+            Sort by:{" "}
             <select
               className={styles.control}
               value={sortBy}
@@ -167,14 +166,14 @@ export default function Todos() {
           {todos.map((todo) => (
             <li
               key={todo.id}
-              className={`${styles.card} ${todo.completed ? styles.done : ''}`}
+              className={`${styles.card} ${todo.completed ? styles.done : ""}`}
             >
               <div>
                 <input
                   type="checkbox"
                   checked={todo.completed}
                   onChange={() => handleToggleComplete(todo)}
-                />{' '}
+                />{" "}
                 (<strong>{todo.id}</strong>) {todo.title}
               </div>
 

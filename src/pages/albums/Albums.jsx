@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext.jsx";
-import { AlbumsService } from "../api/AlbumsService.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { AlbumsService } from "../../api/AlbumsService.js";
 import PhotoManager from "./PhotoManager.jsx";
-import Spinner from "../components/Spinner.jsx";
-import styles from './Albums.module.css';
+import Spinner from "../../components/Spinner.jsx";
+import styles from "./Albums.module.css";
 import { Search } from "lucide-react";
-import SearchBar from "../components/SearchBar.jsx";
-import BackButton from "../components/BackButton.jsx";
+import SearchBar from "../../components/SearchBar.jsx";
+import BackButton from "../../components/BackButton.jsx";
 
 export default function Albums() {
   const { activeUser } = useAuth();
@@ -19,26 +19,24 @@ export default function Albums() {
 
   useEffect(() => {
     if (activeUser) {
-          let query = `?userId=${activeUser.id}`;
-    
-          if (searchField === "id") {
-            query += `&id=${searchValue.trim()}`;
-          } else if (searchField === "title") {
-            query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
-          }          
-          const fn = searchValue
-            ? AlbumsService.search(query)
-            : AlbumsService.list(activeUser.id);
-          setLoading(true);
-          fn
-            .then((data) => {
-              setAlbums(data);
-              setLoading(false);
-            })
-            .finally(() => setLoading(false));
-        } else {
-          setLoading(false);
-        }
+      let query = `?userId=${activeUser.id}`;
+
+      if (searchField === "id") {
+        query += `&id=${searchValue.trim()}`;
+      } else if (searchField === "title") {
+        query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
+      }
+      const fn = searchValue
+        ? AlbumsService.search(query)
+        : AlbumsService.list(activeUser.id);
+      setLoading(true);
+      fn.then((data) => {
+        setAlbums(data);
+        setLoading(false);
+      }).finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
   }, [activeUser?.id, searchValue]);
 
   const handleAddAlbum = (e) => {
@@ -62,26 +60,29 @@ export default function Albums() {
         <h2>{activeUser.username}&apos;s Albums</h2>
 
         <div className={styles.toolbar}>
-          
           <select
             className={styles.control}
-            value={searchField} 
+            value={searchField}
             onChange={(e) => setSearchField(e.target.value)}
           >
             <option value="id">ID</option>
             <option value="title">Title</option>
           </select>
 
-          <SearchBar 
+          <SearchBar
             className={styles.searchInput}
-            value={searchValue} 
+            value={searchValue}
             onChange={setSearchValue}
             placeholder={`Search by ${searchField}...`}
           />
-          
         </div>
 
-        <button className={styles.addBtn} onClick={() => setShowAlbumForm((prev ) => !prev)}>Add Album</button>
+        <button
+          className={styles.addBtn}
+          onClick={() => setShowAlbumForm((prev) => !prev)}
+        >
+          Add Album
+        </button>
 
         {showAlbumForm && (
           <form onSubmit={handleAddAlbum} className={styles.addCard}>
@@ -98,7 +99,7 @@ export default function Albums() {
                 className={styles.cancelBtn}
                 onClick={() => {
                   setShowAlbumForm(false);
-                  setNewAlbumTitle('');
+                  setNewAlbumTitle("");
                 }}
               >
                 Cancel
@@ -113,7 +114,6 @@ export default function Albums() {
         <ul className={styles.grid}>
           {albums.map((album) => (
             <li key={album.id} className={styles.card}>
-
               <div className={styles.header}>
                 <span>
                   ({album.id}) {album.title}
@@ -125,6 +125,6 @@ export default function Albums() {
           ))}
         </ul>
       </section>
-    </main >
+    </main>
   );
 }

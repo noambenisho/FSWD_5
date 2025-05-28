@@ -1,8 +1,8 @@
-import { useState }   from 'react';
-import { useAuth }    from '../context/AuthContext.jsx';
-import { UsersService } from '../api/UsersService.js';
-import { Link, useNavigate } from 'react-router-dom';
-import styles from './AuthForm.module.css'; 
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { UsersService } from "../../api/UsersService.js";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "./AuthForm.module.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -32,13 +32,12 @@ export default function Register() {
 
       // create new user
       const newUser = await UsersService.add({
-        username,      
+        username,
         website: password, // using "website" as pwd field
       });
 
       login(newUser);
-      navigate('/complete-profile', { state: { userId: newUser.id } });
-      
+      navigate("/complete-profile", { state: { userId: newUser.id } });
     } catch (err) {
       console.error(err);
       setErrorMsg(err);
@@ -47,9 +46,7 @@ export default function Register() {
 
   return (
     <div className={styles.wrapper}>
-      
       <form className={styles.card} onSubmit={handleRegister}>
-
         <h1>Register</h1>
 
         <input
@@ -59,7 +56,7 @@ export default function Register() {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-        
+
         <input
           className={styles.input}
           placeholder="Password"
@@ -78,14 +75,17 @@ export default function Register() {
           required
         />
 
-        {errorMsg && <p style={{ color: 'var(--c-danger)', margin: 0 }}>{errorMsg}</p>}
+        {errorMsg && (
+          <p style={{ color: "var(--c-danger)", margin: 0 }}>{errorMsg}</p>
+        )}
 
-        <button className={styles.btnPrimary} type="submit">Register</button>
+        <button className={styles.btnPrimary} type="submit">
+          Register
+        </button>
 
         <div className={styles.linkRow}>
           Already have an account? <Link to="/login">Login</Link>
         </div>
-
       </form>
     </div>
   );
