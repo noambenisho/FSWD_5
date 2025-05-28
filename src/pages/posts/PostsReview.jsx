@@ -70,7 +70,7 @@ export default function PostsReview() {
           <select
             value={searchField}
             onChange={(e) => setSearchField(e.target.value)}
-            style={{ marginTop: "0.5em" }}
+            className={styles.control}
           >
             <option value="id">ID</option>    
             <option value="title">Title</option>
@@ -79,39 +79,91 @@ export default function PostsReview() {
           <SearchBar className={styles.searchInput}
           value={search}
           onChange={setSearch}
-        />
-        {loading && <Spinner className={styles.small}/>}
+          placeholder={`Search by ${searchField}…`}
+          />
+
+          {loading && <Spinner className={styles.small}/>}
         </div>
 
         {showForm && (
           <form onSubmit={handleAdd} className={styles.addCard}>
             <input
+              name="title"
               placeholder="Title"
+              className={styles.input}
               value={title}
               onChange={e => setTitle(e.target.value)}
               required
             />
+
             <textarea
+              name="body"
               placeholder="Body"
+              className={styles.input}
               value={body}
+              rows={3}
               onChange={e => setBody(e.target.value)}
             />
-            <button className={styles.btn}>Create</button>
+
+            <div className={styles.cardActions}>
+              <button
+                type="button"
+                className={styles.cancelBtn}
+                onClick={() => {
+                  setShowForm(false);
+                  setTitle(''); setBody('');
+                }}
+              >
+                Cancel
+              </button>
+
+              <button 
+                type="submit" 
+                className={styles.primaryBtn}>
+                  Create
+                </button>
+            </div>
+
           </form>
         )}
 
         <ul className={styles.list}>
-          {posts.map(p => (
-            <li key={p.id} className={p.id === selectedId ? styles.selected : undefined}>
-              <button
-                className={styles.rowBtn}
-                onClick={() => { setSelectedId(p.id); nav(`/posts/${p.id}`); }}
-              >
+          {posts.map((p) => (
+            <li
+              key={p.id}
+              className={[
+                styles.card,
+                p.id === selectedId ? styles.selected : '',
+              ].join(' ')}
+              onClick={() => {
+                setSelectedId(p.id);
+                nav(`/posts/${p.id}`);
+              }}
+            >
+
+              <span className={styles.rowBtn}>
                 {p.id}. {p.title}
-              </button>
+              </span>
+
               <div className={styles.icons}>
-                <Link to={`/posts/${p.id}/edit`}>✏️</Link>
-                <button onClick={() => handleDelete(p.id)}>🗑</button>
+                <Link
+                  to={`/posts/${p.id}/edit`}
+                  className={styles.iconBtn}
+                  aria-label="Edit"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  ✏️
+                </Link>
+                <button
+                  className={styles.iconBtn}
+                  aria-label="Delete"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(p.id);
+                  }}
+                >
+                  🗑
+                </button>
               </div>
             </li>
           ))}

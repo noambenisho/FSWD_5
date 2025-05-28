@@ -47,10 +47,37 @@ export default function EditPostForm() {
 
   return (
     <form onSubmit={save} className={styles.editForm}>
+
       <h2>Edit Post</h2>
-      <input name="title" defaultValue={post.title} required />
-      <textarea name="body" defaultValue={post.body} required />
-      <button className={styles.btn}>Save</button>
+
+      <input
+        name="title"
+        defaultValue={post.title}
+        className={styles.input}
+        required
+      />
+
+      <textarea
+        name="body"
+        defaultValue={post.body}
+        className={styles.input}
+        rows={4}
+        required
+      />
+
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.cancelBtn}
+          onClick={() => nav('/posts')}
+        >
+          Cancel
+        </button>
+
+        <button type="submit" className={styles.primaryBtn}>
+          Save
+        </button>
+      </div>
     </form>
   );
 }

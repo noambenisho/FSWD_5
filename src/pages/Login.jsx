@@ -1,7 +1,8 @@
 import { useState }   from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth }    from '../context/AuthContext.jsx';
 import { UsersService } from '../api/UsersService.js';
+import styles from './AuthForm.module.css';  
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -39,28 +40,37 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', padding: '1em' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className={styles.wrapper}>
+
+      <form className={styles.card} onSubmit={handleLogin}>
+
+        <h1>Login</h1>
+
+        <input
+          className={styles.input}
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        
+        <input
+          className={styles.input} 
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+       
+        {errorMsg && <p style={{ color: 'var(--c-danger)', margin: 0 }}>{errorMsg}</p>}
+
+        <button className={styles.btnPrimary} type="submit">Log In</button>
+
+        <div className={styles.linkRow}>
+          No account? <Link to="/register">Sign up</Link>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
-        <button type="submit">Log In</button>
+
       </form>
     </div>
   );

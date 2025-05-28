@@ -1,0 +1,102 @@
+/* ---------- page wrapper ---------- */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1rem 4rem;
+}
+
+/* ---------- hero card ---------- */
+.hero {
+  background: linear-gradient(135deg, var(--c-surface) 0%, var(--c-surface-2) 100%);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-l);
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.hero p {
+  margin: 0.5rem 0 1.75rem;
+  font-size: 1rem;
+  color: var(--c-muted);
+}
+
+/* ---- inline user-info panel ---- */
+.infoWrapper {
+  max-width: 680px;
+  margin: 2rem auto 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-m);
+  padding: 1.75rem 2rem;
+  background: var(--c-surface-2);
+  /* slide-down animation */
+  animation: slide 250ms ease-out;
+}
+
+@keyframes slide {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+/* two-column grid on desktop */
+.infoGrid {
+  display: grid;
+  gap: 1.1rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  margin-top: 1.25rem;
+}
+
+.fieldLabel {
+  font-size: 0.8rem;
+  color: var(--c-muted);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.fieldValue {
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.revealBtn {
+  margin: 1.5rem 0 0;
+  background: var(--c-accent);
+  border: none;
+  color: #fff;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.15s;
+}
+.revealBtn:hover { background: var(--c-accent-h); }
+
+
+/* ---------- nav ---------- */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.navBtn {
+  background: var(--c-accent);
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-s);
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.navBtn:hover   { background: var(--c-accent-h); transform: translateY(-2px); }
+.navBtn:active  { transform: translateY(0); }

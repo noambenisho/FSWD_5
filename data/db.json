@@ -849,7 +849,7 @@
     },
     {
       "userId": 11,
-      "title": "new post",
+      "title": "New Post",
       "body": "this is my new post",
       "id": 101
     }
@@ -4359,7 +4359,7 @@
       "postId": "101",
       "name": "ms",
       "email": "mshahar148@gmail.com",
-      "body": "I knew it",
+      "body": "I knew it!",
       "id": 501
     },
     {
@@ -4890,6 +4890,11 @@
       "title": "my first album",
       "userId": 11,
       "id": 104
+    },
+    {
+      "title": "frdhgfd",
+      "userId": 11,
+      "id": 105
     }
   ],
   "photos": [
@@ -40017,12 +40022,6 @@
       "completed": true
     },
     {
-      "userId": 1,
-      "id": 20,
-      "title": "ullam nobis libero sapiente ad optio sint",
-      "completed": true
-    },
-    {
       "userId": 2,
       "id": 21,
       "title": "suscipit repellat esse quibusdam voluptatem incidunt",
@@ -41107,6 +41106,18 @@
       "completed": false,
       "userId": 11,
       "id": 201
+    },
+    {
+      "title": "my second todo",
+      "completed": false,
+      "userId": 11,
+      "id": 202
+    },
+    {
+      "title": "my 3rd todo",
+      "completed": false,
+      "userId": 11,
+      "id": 203
     }
   ]
 }

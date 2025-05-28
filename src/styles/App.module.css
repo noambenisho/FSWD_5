@@ -1,0 +1,36 @@
+:global(:root) {
+  /* ------------- Design tokens ------------- */
+  --font-main: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --radius-s: 0.375rem;   /* 6 px */
+  --radius-m: 0.5rem;     /* 8 px */
+  --radius-l: 1rem;       /* 16 px */
+
+  --c-bg:        #1e1f24;
+  --c-surface:   #26282e;
+  --c-surface-2: #2f3138;
+  --c-border:    #3a3c44;
+  --c-accent:    #4c8ffe;
+  --c-accent-h:  #6aa0ff;
+  --c-text:      #e7e8ec;
+  --c-muted:     #b1b3bb;
+  --c-danger:    #ff6b6b;
+}
+
+:global(html, body) {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-main);
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+:global(*) {
+  box-sizing: border-box;
+}
+
+.appRoot {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

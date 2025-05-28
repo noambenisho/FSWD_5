@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import styles from './TodoForm.module.css';
+import { useState } from 'react';
 
 export default function TodoForm({ onSave, onCancel, initialData = {} }) {
   const [title, setTitle] = useState(initialData ? initialData.title : '');
@@ -9,15 +10,22 @@ export default function TodoForm({ onSave, onCancel, initialData = {} }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Title"
         required
       />
-      <button type="submit">Save</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
+
+      <div className={styles.actions}>
+        <button className={styles.cancelBtn} type="button" onClick={onCancel}>
+          Cancel
+        </button>
+        <button className={styles.primaryBtn} type="submit">
+          Save
+        </button>
+      </div>
     </form>
   );
 }

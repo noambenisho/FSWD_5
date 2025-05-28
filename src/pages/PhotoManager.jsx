@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AlbumsService } from "../api/AlbumsService";
+import styles from "./PhotoManager.module.css";
 
 export default function PhotoManager({ albumId }) {
   const [photos, setPhotos] = useState([]);
@@ -39,33 +40,63 @@ export default function PhotoManager({ albumId }) {
   };
 
   return (
-    <div style={{ marginTop: "1em" }}>
-      <button onClick={toggleVisibility} style={{ marginBottom: "1em" }}>
-        {isVisible ? "Load More" : "View Photos"}
-      </button>
-      {isVisible && <button 
-      onClick={() => {
-        setIsVisible(false)
-        setPhotos([]);
-        setPhotoPage(0);
-      }} 
-      style={{ marginLeft: "0.5em" }}>
-        Hide Photos
-      </button>}
+    <div className={styles.manager}>
+      <div className={styles.toolbar}>
+
+        <button onClick={toggleVisibility} className={styles.primaryBtn}>
+          {isVisible ? "Load More" : "View Photos"}
+        </button>
+
+        {isVisible && <button 
+        className={styles.secondaryBtn}
+        onClick={() => {
+          setIsVisible(false)
+          setPhotos([]);
+          setPhotoPage(0);
+        }} >
+          Hide Photos
+        </button>}
+      </div>
 
       {isVisible && (
         <>
-          <form onSubmit={handleAddPhoto} style={{ marginBottom: "1em" }}>
-            <input value={newPhoto.title} onChange={e => setNewPhoto(p => ({ ...p, title: e.target.value }))} placeholder="Title" required />
-            <input value={newPhoto.url} onChange={e => setNewPhoto(p => ({ ...p, url: e.target.value, thumbnailUrl: e.target.value.replace("/600/400", "/150/100") }))} placeholder="Image URL" required />
-            <button type="submit">Add Photo</button>
+          <form onSubmit={handleAddPhoto} className={styles.addCard}>
+
+            <input 
+              value={newPhoto.title} 
+              onChange={e => setNewPhoto(p => ({ ...p, title: e.target.value }))} 
+              placeholder="Title" required 
+              className={styles.input}
+            />
+
+            <input 
+              className={styles.input}
+              value={newPhoto.url} 
+              onChange={e => setNewPhoto(p => ({ ...p, url: e.target.value, thumbnailUrl: e.target.value.replace("/600/400", "/150/100") }))} 
+              placeholder="Image URL" 
+              required 
+            />
+
+            <div className={styles.cardActions}>
+              <button type="submit" className={styles.primaryBtn}>
+                Add Photo
+              </button>
+            </div>
           </form>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(100px, 1fr))", gap: "0.5em" }}>
+          <div className={styles.photoGrid}>
             {photos.map((photo) => (
-              <div key={photo.id} style={{ position: "relative" }}>
-                <img src={photo.thumbnailUrl} alt={photo.title} style={{ width: "100%" }} />
-                <button onClick={() => handleDeletePhoto(photo.id)} style={{ position: "absolute", top: 0, right: 0, background: "red", color: "white", border: "none", cursor: "pointer" }}>🗑️</button>
+              <div key={photo.id} className={styles.photoCard}>
+                <img 
+                  src={photo.thumbnailUrl} 
+                  alt={photo.title} 
+                  className={styles.photoImg}
+                />
+                <button 
+                  className={styles.deleteBtn}
+                  onClick={() => handleDeletePhoto(photo.id)}>
+                    🗑
+                  </button>
               </div>
             ))}
           </div>

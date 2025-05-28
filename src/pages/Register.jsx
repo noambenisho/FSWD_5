@@ -1,7 +1,8 @@
 import { useState }   from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth }    from '../context/AuthContext.jsx';
 import { UsersService } from '../api/UsersService.js';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from './AuthForm.module.css'; 
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -45,44 +46,46 @@ export default function Register() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "1em" }}>
+    <div className={styles.wrapper}>
       
-      <h2>Register</h2>
+      <form className={styles.card} onSubmit={handleRegister}>
 
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Username:</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Verify password:</label>
-          <input
-            type="password"
-            value={verifyPassword}
-            onChange={(e) => setVerifyPassword(e.target.value)}
-            required
-          />
+        <h1>Register</h1>
+
+        <input
+          className={styles.input}
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        
+        <input
+          className={styles.input}
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <input
+          className={styles.input}
+          placeholder="Verify password"
+          type="password"
+          value={verifyPassword}
+          onChange={(e) => setVerifyPassword(e.target.value)}
+          required
+        />
+
+        {errorMsg && <p style={{ color: 'var(--c-danger)', margin: 0 }}>{errorMsg}</p>}
+
+        <button className={styles.btnPrimary} type="submit">Register</button>
+
+        <div className={styles.linkRow}>
+          Already have an account? <Link to="/login">Login</Link>
         </div>
 
-        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-
-        <button type="submit">Register</button>
-        <a href="/login" style={{ marginLeft: "1em" }}>
-          Already have an account? Login
-        </a>
       </form>
     </div>
   );

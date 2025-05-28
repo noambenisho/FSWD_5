@@ -1,0 +1,186 @@
+/* ---------- page wrapper & hero ---------- */
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--c-surface) 0%, var(--c-surface-2) 100%);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-l);
+  text-align: center;
+  padding: 2rem 1.5rem 3rem;
+  margin-bottom: 2rem; 
+  display: flex;
+  flex-direction: column;
+}
+
+.hero h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+/* ---------- toolbar (search + clear + add‐toggle) ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.control {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--c-text);
+}
+.control:focus {
+  border-color: var(--c-accent);
+  outline: none;
+}
+
+.searchInput {
+  flex: 1 1 240px;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--c-text);
+}
+.searchInput::placeholder { color: var(--c-muted); }
+.searchInput:focus { border-color: var(--c-accent); outline: none; }
+
+/* “Search” / “Clear” secondary buttons */
+.controlBtn {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  color: var(--c-text);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.controlBtn:hover {
+  background: var(--c-surface);
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+/* toggles “Add Album” button */
+.addBtn {
+  background: var(--c-accent);
+  border: none;
+  color: white;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.addBtn:hover { 
+    background: var(--c-accent-h); 
+}
+
+/* ---------- inline “Add Album” form ---------- */
+.addCard {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-m);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.input {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  padding: 0.55rem 0.8rem;
+  color: var(--c-text);
+  font-size: 0.95rem;
+}
+
+.input:focus {
+  border-color: var(--c-accent);
+  outline: none;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.primaryBtn {
+  background: var(--c-accent);
+  border: none;
+  color: #fff;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.primaryBtn:hover {
+  background: var(--c-accent-h);
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid var(--c-border);
+  color: var(--c-text);
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.cancelBtn:hover {
+  color: var(--c-accent);
+  border-color: var(--c-accent);
+}
+
+/* ---------- albums grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 2rem 0 0;
+  list-style: none;
+  width: 100%;
+}
+
+/* ---------- album card ---------- */
+.card {
+  align-self: stretch;
+  width: 100%;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-m);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border 0.15s, background 0.15s;
+}
+.card:hover { 
+    border-color: var(--c-accent); 
+}
+
+/* album header row */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+}
+
+/* PhotoManager will render its own grid & buttons, no extra rules needed here */

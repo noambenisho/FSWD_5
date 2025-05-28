@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { AlbumsService } from "../api/AlbumsService.js";
 import PhotoManager from "./PhotoManager.jsx";
 import Spinner from "../components/Spinner.jsx";
+import styles from './Albums.module.css';
 
 export default function Albums() {
   const { activeUser } = useAuth();
@@ -63,48 +64,78 @@ export default function Albums() {
   if (!activeUser) return <p>No user logged in</p>;
 
   return (
-    <div style={{ maxWidth: "700px", margin: "auto", padding: "1em" }}>
-      <h2>{activeUser.username}'s Albums</h2>
+    <main className={styles.container}>
 
-      <div style={{ margin: "1em 0" }}>
-        <label>Search by: </label>
-        <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
-          <option value="id">ID</option>
-          <option value="title">Title</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Enter search value"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          style={{ marginLeft: "1em" }}
-        />
-        <button onClick={handleSearch} style={{ marginLeft: "0.5em" }}>Search</button>
-        <button onClick={handleClear} style={{ marginLeft: "0.5em" }}>Clear</button>
-      </div>
+      <section className={styles.hero}>
+        <h2>{activeUser.username}&apos;s Albums</h2>
 
-      <button onClick={() => setShowAlbumForm(true)}>Add Album</button>
-      {showAlbumForm && (
-        <form onSubmit={handleAddAlbum}>
+        <div className={styles.toolbar}>
+          
+          <select
+            className={styles.control}
+            value={searchField} 
+            onChange={(e) => setSearchField(e.target.value)}
+          >
+            <option value="id">ID</option>
+            <option value="title">Title</option>
+          </select>
+
           <input
-            value={newAlbumTitle}
-            onChange={(e) => setNewAlbumTitle(e.target.value)}
-            placeholder="Album Title"
-            required
+            type="text"
+            className={styles.searchInput}
+            placeholder={`Search by ${searchField}...`}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button type="submit">Save</button>
-          <button type="button" onClick={() => setShowAlbumForm(false)}>Cancel</button>
-        </form>
-      )}
+          
+          <button className={styles.primaryBtn} onClick={handleSearch}>Search</button>
+          <button className={styles.controlBtn} onClick={handleClear}>Clear</button>
+        </div>
 
-      <ul>
-        {albums.map((album) => (
-          <li key={album.id} style={{ marginBottom: "2em" }}>
-            ({album.id}) <strong>{album.title}</strong>
-            {<PhotoManager albumId={album.id} />}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <button className={styles.addBtn} onClick={() => setShowAlbumForm((prev ) => !prev)}>Add Album</button>
+
+        {showAlbumForm && (
+          <form onSubmit={handleAddAlbum} className={styles.addCard}>
+            <input
+              value={newAlbumTitle}
+              className={styles.input}
+              onChange={(e) => setNewAlbumTitle(e.target.value)}
+              placeholder="Album Title"
+              required
+            />
+            <div className={styles.cardActions}>
+              <button
+                type="button"
+                className={styles.cancelBtn}
+                onClick={() => {
+                  setShowAlbumForm(false);
+                  setNewAlbumTitle('');
+                }}
+              >
+                Cancel
+              </button>
+              <button type="submit" className={styles.primaryBtn}>
+                Save
+              </button>
+            </div>
+          </form>
+        )}
+
+        <ul className={styles.grid}>
+          {albums.map((album) => (
+            <li key={album.id} className={styles.card}>
+
+              <div className={styles.header}>
+                <span>
+                  ({album.id}) {album.title}
+                </span>
+              </div>
+
+              {<PhotoManager albumId={album.id} />}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main >
   );
 }

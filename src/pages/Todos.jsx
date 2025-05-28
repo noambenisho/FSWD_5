@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { TodosService } from "../api/TodosService.js";
 import Spinner from "../components/Spinner.jsx";
 import SearchBar from "../components/SearchBar.jsx";
-import { AlbumsService } from "../api/AlbumsService.js";
+import styles from './Todos.module.css';
 
 export default function Todos() {
   const { activeUser } = useAuth();
@@ -135,71 +135,99 @@ export default function Todos() {
   if (!activeUser) return <p>No user logged in</p>;
 
   return (
-    <div style={{ maxWidth: "700px", margin: "auto", padding: "1em" }}>
-      <h2>{activeUser.username}'s Todos</h2>
-      <label>Sort by: </label>
-      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-        <option value="id">ID</option>
-        <option value="title">Title</option>
-        <option value="completed">Completed</option>
-      </select>
-      <br />
-      <select
-        value={searchField}
-        onChange={(e) => setSearchField(e.target.value)}
-        style={{ marginTop: "0.5em" }}
-      >
-        <option value="id">ID</option>    
-        <option value="title">Title</option>
-        <option value="completed">Completed</option>
-      </select>
-      <SearchBar
-        value={searchValue}
-        onChange={setSearchValue}
-      />
-      <button
-        onClick={() => {
-          setEditingTodo(null);
-          setShowForm(true);
-        }}
-      >
-        Add
-      </button>
+    <main className={styles.container}>
+      <section className={styles.hero}>
+        <h2>{activeUser.username}&apos;s Todos</h2>
 
-      {showForm && (
-        <TodoForm
-          onSave={handleSave}
-          onCancel={() => setShowForm(false)}
-          initialData={editingTodo}
-        />
-      )}
-
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id} style={{ marginBottom: "0.5em" }}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => handleToggleComplete(todo)}
-              style={{ marginRight: "0.5em" }}
-            />
-            ({todo.id}) <strong>{todo.title}</strong>
-            <button onClick={() => deleteTodos(todo)}
-             style={{ background: "none", cursor: "pointer", fontSize: "1.1em", marginLeft: "0.5em" }}>
-                🗑️
-            </button>
-            <button
-              onClick={() => {
-                setEditingTodo(todo);
-                setShowForm(true);
-              }}
-                style={{ background: "none", cursor: "pointer", fontSize: "1.1em", marginLeft: "0.2em" }}
+        {/* ─── toolbar ───────────────────────────── */}
+        <div className={styles.toolbar}>
+          <label>
+            Sort by:{' '}
+            <select
+              className={styles.control}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
             >
-              ✏️
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+              <option value="id">ID</option>
+              <option value="title">Title</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
+
+          <select
+            className={styles.control}
+            value={searchField}
+            onChange={(e) => setSearchField(e.target.value)}
+          >
+            <option value="id">ID</option>
+            <option value="title">Title</option>
+            <option value="completed">Completed</option>
+          </select>
+
+          <SearchBar
+            className={styles.searchInput}
+            value={searchValue}
+            onChange={setSearchValue}
+            placeholder={`Search by ${searchField}…`}
+          />
+
+          <button
+            className={styles.addBtn}
+            onClick={() => {
+              setEditingTodo(null);
+              setShowForm(true);
+            }}
+          >
+            Add
+          </button>
+        </div>
+
+        {/* ─── Todo grid ─────────────────────────── */}
+        <ul className={styles.grid}>
+          {todos.map((todo) => (
+            <li
+              key={todo.id}
+              className={`${styles.card} ${todo.completed ? styles.done : ''}`}
+            >
+              <div>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => handleToggleComplete(todo)}
+                />{' '}
+                (<strong>{todo.id}</strong>) {todo.title}
+              </div>
+
+              <div className={styles.icons}>
+                <button
+                  className={styles.iconBtn}
+                  onClick={() => deleteTodos(todo)}
+                >
+                  🗑
+                </button>
+                <button
+                  className={styles.iconBtn}
+                  onClick={() => {
+                    setEditingTodo(todo);
+                    setShowForm(true);
+                  }}
+                >
+                  ✏️
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {/* ─── modal form ────────────────────────── */}
+        {showForm && (
+          <TodoForm
+            initialData={editingTodo}
+            onSave={handleSave}
+            onCancel={() => setShowForm(false)}
+          />
+        )}
+      </section>
+    </main>
   );
 }

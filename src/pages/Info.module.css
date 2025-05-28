@@ -1,0 +1,73 @@
+/* overlay that sits above everything */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  animation: fade .25s ease-out;
+}
+
+/* modal card */
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-l);
+  padding: 2rem 2.25rem;
+  width: 90vw;
+  max-width: 640px;
+  color: var(--c-text);
+  box-shadow: 0 8px 32px rgba(0,0,0,.45);
+  position: relative;
+}
+
+/* tiny close icon */
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: transparent;
+  color: var(--c-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: color .15s;
+}
+.closeBtn:hover { color: var(--c-accent); }
+
+/* grid of fields */
+.grid {
+  display: grid;
+  gap: 0.85rem 1.25rem;
+  /* 2-col above 520 px */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 1.2rem;
+}
+
+/* each label / value */
+.label {
+  font-weight: 500;
+  color: var(--c-muted);
+  font-size: 0.85rem;
+}
+.value {
+  font-size: 0.93rem;
+  word-break: break-word;
+}
+
+/* reveal-password toggle */
+.revealBtn {
+  margin-top: 0.75rem;
+  background: var(--c-accent);
+  border: none;
+  color: #fff;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background .15s;
+}
+.revealBtn:hover { background: var(--c-accent-h); }
+
+@keyframes fade { from { opacity: 0 } to { opacity: 1 } }

@@ -1,0 +1,139 @@
+/* ---------- hero panel ---------- */
+.hero {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-l);
+  padding: 2rem 1.5rem 3rem;
+}
+
+.hero h2 {
+  text-align: center;
+  width: 100%;
+  margin: 0 0 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* ---------- page wrapper ---------- */
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ---------- toolbar (sort + search + add) ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* shared look for <select> controls */
+.control {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  color: var(--c-text);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.control:focus {
+  border-color: var(--c-accent);
+  outline: none;
+}
+
+/* search input (SearchBar forwards className) */
+.searchInput {
+  flex: 1 1 240px;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  color: var(--c-text);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.searchInput::placeholder {
+  color: var(--c-muted);
+}
+
+.searchInput:focus {
+  border-color: var(--c-accent);
+  outline: none;
+}
+
+/* “Add” button */
+.addBtn {
+  display: block;
+  width: 100%;
+  margin: 1.5rem auto 1.5rem;   
+  background: var(--c-accent);
+  border: none;
+  border-radius: var(--radius-s);
+  color: #fff;
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.addBtn:hover {
+  background: var(--c-accent-h);
+}
+
+/* ---------- todo grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.9rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.grid li {
+  list-style: none;
+}
+
+/* individual todo card */
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-m);
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border 0.15s;
+}
+
+.card:hover {
+  border-color: var(--c-accent);
+}
+
+.done {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+/* icons row */
+.icons {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--c-muted);
+  transition: color 0.15s;
+}
+.iconBtn:hover {
+  color: var(--c-accent);
+}

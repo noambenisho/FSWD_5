@@ -1,33 +1,59 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import styles from '../pages/Home.module.css';   // ← reuse same module
 
-export default function Info() {
-
+export default function InfoPanel() {
   const { activeUser } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
-  if (!activeUser) {
-    return <p>Please log in to view your profile.</p>;
-  }
+  if (!activeUser) return null;
+
+  const company =
+    typeof activeUser.company === 'object'
+      ? activeUser.company?.name
+      : activeUser.company;
+
+  const address =
+    typeof activeUser.address === 'object'
+      ? [activeUser.address?.street, activeUser.address?.suite, activeUser.address?.city]
+          .filter(Boolean)
+          .join(', ')
+      : activeUser.address;
 
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '1em' }}>
-      <h2>User Information</h2>
-      <div style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '1em' }}>
-        <div style={{ border: '1px solid #ccc', borderRadius: 8, padding: '1em' }}>
-        <p><strong>Full Name:</strong> {activeUser.name || 'N/A'}</p>
-        <p><strong>Username:</strong> {activeUser.username}</p>
-        <p><strong>Email:</strong> {activeUser.email || 'N/A'}</p>
-        <p><strong>User ID:</strong> {activeUser.id}</p>
-        <p><strong>Phone:</strong> {activeUser.phone || 'N/A'}</p>
-        <p><strong>Company:</strong> {activeUser.company?.name || 'N/A'}</p>
-        <p><strong>Address:</strong> {activeUser.address?.street || 'N/A'}, { activeUser.address?.city || 'N/A'}</p>
-        <p><strong>Password:</strong> { showPassword ? activeUser.website : '********' }</p>
-        <button onClick={() => setShowPassword((prev) => !prev)}>
-          {showPassword ? 'Hide Password' : 'Show Password'}
-        </button>
+    <div className={styles.infoWrapper}>
+      <h3>User Information</h3>
+
+      <div className={styles.infoGrid}>
+        <Field label="Full Name" value={activeUser.name} />
+        <Field label="Username"  value={activeUser.username} />
+        <Field label="Email"     value={activeUser.email} />
+        <Field label="Phone"     value={activeUser.phone} />
+        <Field label="Company"   value={company} />
+        <Field label="Address"   value={address} />
+        <Field label="User ID"   value={activeUser.id} />
+        <Field
+          label="Password"
+          value={showPass ? activeUser.website : '********'}
+        />
       </div>
-      </div>
+
+      <button
+        className={styles.revealBtn}
+        onClick={() => setShowPass((p) => !p)}
+      >
+        {showPass ? 'Hide Password' : 'Show Password'}
+      </button>
+    </div>
+  );
+}
+
+/* small helper */
+function Field({ label, value }) {
+  return (
+    <div>
+      <div className={styles.fieldLabel}>{label}</div>
+      <div className={styles.fieldValue}>{value || 'N/A'}</div>
     </div>
   );
 }

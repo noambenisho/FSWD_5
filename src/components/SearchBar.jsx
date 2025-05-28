@@ -1,11 +1,11 @@
 import styles from './SearchBar.module.css';
 
-export default function SearchBar({ value, onChange, className = '' }) {
+export default function SearchBar({ value, onChange, placeholder, className = '' }) {
   return (
-    <div className={`${styles.wrapper} ${className}`}>
+    <div className={`${styles.searchInput} ${className ?? ''}`.trim()}>
       <input
       className={`${styles.searchInput}`}
-      placeholder="Search by title…"
+      placeholder={`${placeholder || "Search…"}`}
       value={value}
       onChange={e => onChange(e.target.value)}
       autoFocus

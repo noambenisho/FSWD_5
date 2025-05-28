@@ -10,6 +10,7 @@ import PostDetails from './pages/posts/PostDetails.jsx';
 import EditPostForm from './pages/posts/EditPostForm.jsx';
 import Albums from "./pages/Albums.jsx";
 import CompleteProfile from "./pages/CompleteProfile.jsx";
+import './styles/App.module.css';
 
 function App() {
   return (

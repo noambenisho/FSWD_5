@@ -49,11 +49,17 @@ export default function PostsLayout() {
 
   return (
     <PostsCtx.Provider value={ctxValue}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Posts</h1>
-        {error && <p className={styles.error}>{error}</p>}
-        {loading ? <Spinner /> : <Outlet context={ctxValue} />}
-      </div>
+      <main className={styles.container}>
+
+        <section className={styles.hero}>
+          <h1 className={styles.title}>Posts</h1>
+
+          {error && <p className={styles.error}>{error}</p>}
+          
+          {loading ? <Spinner /> : <Outlet context={ctxValue} />}
+        </section>
+
+      </main>
     </PostsCtx.Provider>
   );
 }

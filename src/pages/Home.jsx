@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useEffect, useState } from 'react';
 import Info from './Info.jsx';
+import { Link } from 'react-router-dom';
+import styles from './Home.module.css'; 
 
 export default function Home() {
   const navigate = useNavigate();
@@ -23,20 +25,24 @@ export default function Home() {
   if (!activeUser) return <p>Redirecting...</p>;
 
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '1em' }}>
-      <h1>Welcome, {activeUser.username}!</h1>
-      <p>This is your home page.</p>
+    <main  className={styles.container}>
+      <section className={styles.hero}>
+        
+        <h1>Welcome, {activeUser.username || 'friend'}!</h1>
+        <p>This is your home page.</p>
 
-      <div style={{ display: 'flex', gap: '1em', flexWrap: 'wrap', marginBottom: '1em' }}>
-        <button onClick={() => setShowInfo(!showInfo)}>Info</button>
-        <button onClick={() => navigate('/todos')}>Todos</button>
-        <button onClick={() => navigate('/posts')}>Posts</button>
-        <button onClick={() => navigate('/albums')}>Albums</button>
-        <button onClick={handleLogout}>Log Out</button>
-      </div>
+        <nav className={styles.nav}>
+          <Link className={styles.navBtn} to="/todos">Todos</Link>
+          <Link className={styles.navBtn} to="/posts">Posts</Link>
+          <Link className={styles.navBtn} to="/albums">Albums</Link>
+          <button className={styles.navBtn} onClick={() => setShowInfo(!showInfo)}>Info</button>
+          <button  className={styles.navBtn} onClick={handleLogout}>Log Out</button>
+        </nav>
 
-      <p>Enjoy exploring your content, {activeUser.username}!</p>
-      {showInfo && <Info />}
-    </div>
+        <p>Enjoy exploring your content, {activeUser.username || 'friend'}!</p>
+        
+        {showInfo && <Info />}
+      </section>
+    </main>
   );
 }
