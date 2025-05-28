@@ -66,37 +66,6 @@ export default function Todos() {
     }
   };
 
-  const handleSearch = () => {
-    if (!searchValue.trim()) return;
-
-    let query = `/todos?userId=${activeUser.id}`;
-
-    if (searchField === "id") {
-      query += `&id=${searchValue.trim()}`;
-    } else if (searchField === "title") {
-      query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
-    } else if (searchField === "completed") {
-      const val = searchValue.toLowerCase();
-      if (val === "true" || val === "false") {
-        query += `&completed=${val}`;
-      } else {
-        alert("Enter true or false for completed status.");
-        return;
-      }
-    }
-
-    setLoading(true);
-    TodosService.search(query)
-      .then((data) => {
-        setTodos(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Search failed:", err);
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
     if (activeUser) {     
       let query = `?userId=${activeUser.id}`;

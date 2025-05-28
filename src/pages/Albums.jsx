@@ -16,39 +16,27 @@ export default function Albums() {
 
   useEffect(() => {
     if (activeUser) {
-      AlbumsService.list(activeUser.id)
-        .then(setAlbums)
-        .catch(console.error)
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [activeUser]);
-
-  const handleSearch = () => {
-    if (!searchValue.trim()) return;
-
-    let query = `/albums?userId=${activeUser.id}`;
-
-    if (searchField === "id") {
-      query += `&id=${searchValue.trim()}`;
-    } else if (searchField === "title") {
-      query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
-    }
-
-    setLoading(true);
-    AlbumsService.search(query)
-      .then(setAlbums)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  };
-
-  const handleClear = () => {
-    setSearchValue("");
-    AlbumsService.list(activeUser.id)
-      .then(setAlbums)
-      .catch(console.error);
-  };
+          let query = `?userId=${activeUser.id}`;
+    
+          if (searchField === "id") {
+            query += `&id=${searchValue.trim()}`;
+          } else if (searchField === "title") {
+            query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
+          }          
+          const fn = searchValue
+            ? AlbumsService.search(query)
+            : AlbumsService.list(activeUser.id);
+          setLoading(true);
+          fn
+            .then((data) => {
+              setAlbums(data);
+              setLoading(false);
+            })
+            .finally(() => setLoading(false));
+        } else {
+          setLoading(false);
+        }
+  }, [activeUser?.id, searchValue]);
 
   const handleAddAlbum = (e) => {
     e.preventDefault();
