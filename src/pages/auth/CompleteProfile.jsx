@@ -5,10 +5,8 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import styles from "./CompleteProfile.module.css";
 
 export default function CompleteProfile() {
-  const { login } = useAuth();
+  const { login, activeUser } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { activeUser } = useAuth()
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

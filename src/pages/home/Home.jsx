@@ -8,7 +8,7 @@ import LogoutButton from "../../components/LogoutButton.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { activeUser, logout } = useAuth();
+  const { activeUser } = useAuth();
   const [showInfo, setShowInfo] = useState(false);
 
   // If no one is logged in, bounce to /login
@@ -17,11 +17,6 @@ export default function Home() {
       navigate("/login");
     }
   }, [activeUser, navigate]);
-
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate('/login');
-  // };
 
   if (!activeUser) return <p>Redirecting...</p>;
 
@@ -48,7 +43,6 @@ export default function Home() {
           >
             Info
           </button>
-          {/* <button  className={styles.navBtn} onClick={handleLogout}>Log Out</button> */}
         </nav>
 
         <p>Enjoy exploring your content, {activeUser.username || "friend"}!</p>

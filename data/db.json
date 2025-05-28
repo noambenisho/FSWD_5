@@ -16,7 +16,7 @@
         }
       },
       "phone": "1-770-736-8031 x56442",
-      "website": "123456",
+      "website": "123",
       "company": {
         "name": "Romaguera-Crona",
         "catchPhrase": "Multi-layered client-server neural-net",
@@ -897,12 +897,6 @@
       "title": "New Post",
       "body": "this is my new post",
       "id": 101
-    },
-    {
-      "userId": 1,
-      "title": "Noam's post",
-      "body": "hi Moshe",
-      "id": 102
     }
   ],
   "comments": [
@@ -4419,13 +4413,6 @@
       "email": "Sincere@april.biz",
       "body": "very good bro",
       "id": 502
-    },
-    {
-      "postId": "102",
-      "name": "Bret",
-      "email": "Sincere@april.biz",
-      "body": "very good bro!",
-      "id": 503
     }
   ],
   "albums": [
@@ -4961,13 +4948,6 @@
     }
   ],
   "photos": [
-    {
-      "albumId": 1,
-      "id": 3,
-      "title": "officia porro iure quia iusto qui ipsa ut modi",
-      "url": "https://picsum.photos/id/3/600/400",
-      "thumbnailUrl": "https://picsum.photos/id/3/150/100"
-    },
     {
       "albumId": 1,
       "id": 4,

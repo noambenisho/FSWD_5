@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { PostsService } from '../../api/PostsService.js';
 import Spinner from '../../components/Spinner.jsx';
 import styles from './PostsLayout.module.css';
+import BackButton from '../../components/BackButton.jsx';
 
 export const PostsCtx = createContext(null);
 export const usePosts = () => useOutletContext();
@@ -32,11 +33,10 @@ export default function PostsLayout() {
         return;
       }
 
+    setLoading(true);
     const fn = search
       ? PostsService.search(query)
       : PostsService.list(activeUser.id);
-
-    setLoading(true);
 
     fn
       .then(setPosts)
@@ -50,6 +50,7 @@ export default function PostsLayout() {
   return (
     <PostsCtx.Provider value={ctxValue}>
       <main className={styles.container}>
+        <BackButton />
 
         <section className={styles.hero}>
           <h1 className={styles.title}>Posts</h1>

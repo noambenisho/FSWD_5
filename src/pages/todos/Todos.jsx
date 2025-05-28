@@ -87,14 +87,13 @@ export default function Todos() {
         }
       }
 
+      setLoading(true);
       const fn = searchValue
         ? TodosService.search(query)
         : TodosService.listByUserSorted(activeUser.id, sortBy);
-      setLoading(true);
 
       fn.then((data) => {
         setTodos(data);
-        setLoading(false);
       }).finally(() => setLoading(false));
     } else {
       setLoading(false);
@@ -180,18 +179,18 @@ export default function Todos() {
               <div className={styles.icons}>
                 <button
                   className={styles.iconBtn}
-                  onClick={() => deleteTodos(todo)}
-                >
-                  🗑
-                </button>
-                <button
-                  className={styles.iconBtn}
                   onClick={() => {
                     setEditingTodo(todo);
                     setShowForm(true);
                   }}
                 >
                   ✏️
+                </button>
+                <button
+                  className={styles.iconBtn}
+                  onClick={() => deleteTodos(todo)}
+                >
+                  🗑
                 </button>
               </div>
             </li>

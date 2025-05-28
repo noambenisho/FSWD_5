@@ -4,7 +4,6 @@ import { AlbumsService } from "../../api/AlbumsService.js";
 import PhotoManager from "./PhotoManager.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import styles from "./Albums.module.css";
-import { Search } from "lucide-react";
 import SearchBar from "../../components/SearchBar.jsx";
 import BackButton from "../../components/BackButton.jsx";
 
@@ -20,20 +19,17 @@ export default function Albums() {
   useEffect(() => {
     if (activeUser) {
       let query = `?userId=${activeUser.id}`;
-
       if (searchField === "id") {
         query += `&id=${searchValue.trim()}`;
       } else if (searchField === "title") {
         query += `&title_like=${encodeURIComponent(searchValue.trim())}`;
       }
+      setLoading(true);
       const fn = searchValue
         ? AlbumsService.search(query)
         : AlbumsService.list(activeUser.id);
-      setLoading(true);
-      fn.then((data) => {
-        setAlbums(data);
-        setLoading(false);
-      }).finally(() => setLoading(false));
+      fn.then((data) => setAlbums(data))
+      .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }

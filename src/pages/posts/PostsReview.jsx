@@ -25,9 +25,9 @@ export default function PostsReview() {
   // Delete a post
   const handleDelete = async id => {
     const prev = posts;
-    setPosts(p => p.filter(x => x.id !== id));
     try { 
       await PostsService.remove(id); 
+      setPosts(p => p.filter(x => x.id !== id));
     } catch (e) { 
       setPosts(prev); // rollback
       setError('Failed to delete post: ' + e.message);
