@@ -1,0 +1,88 @@
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.hero {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-l);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.formCard {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-m);
+  padding: 1.5rem;
+  display: grid;
+  row-gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field label {
+  font-size: 0.95rem;
+  color: var(--c-text);
+}
+
+.field input {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-s);
+  color: var(--c-text);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+}
+
+.input:focus::placeholder {
+  color: #fff;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.primaryBtn {
+  background: var(--c-accent);
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.primaryBtn:hover {
+  background: var(--c-accent-h);
+}
+
+.error {
+  color: var(--c-error);      
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}

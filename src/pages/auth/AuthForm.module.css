@@ -32,6 +32,15 @@
   color: var(--c-text);
 }
 
+input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+}
+
+.input:focus::placeholder {
+  color: #fff;
+}
+
 .btnPrimary {
   margin-top: 0.5rem;
   background: var(--c-accent);
