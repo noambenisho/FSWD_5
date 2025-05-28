@@ -165,14 +165,18 @@
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-m);
+  border-color: var(--c-accent);
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   transition: border 0.15s, background 0.15s;
 }
+
 .card:hover { 
-    border-color: var(--c-accent); 
+  border-color: white;
+  background: var(--c-surface-2);
+  transform: translateY(-2px);
 }
 
 /* album header row */

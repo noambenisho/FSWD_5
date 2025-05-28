@@ -78,6 +78,7 @@
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-m);
+  border-color: var(--c-accent);
   padding: 1rem 1.25rem;           
   font-size: 1.05rem;        
   cursor: pointer;                
